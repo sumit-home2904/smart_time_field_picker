@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import  'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:smart_time_field_picker/src/overlay_builder.dart';
@@ -8,7 +8,6 @@ import 'package:smart_time_field_picker/smart_time_field_picker.dart';
 export 'time_picker_decoration.dart';
 
 class SmartTimeField extends StatefulWidget {
-
   /// when you have text fields, users can usually long-press to select text,
   /// which brings up the toolbar with options like copy, paste, etc. So,
   /// [enableInteractiveSelection] probably relates to enabling or disabling that behavior.
@@ -20,7 +19,6 @@ class SmartTimeField extends StatefulWidget {
   /// get your open drop-down menu height it's have default 150 height
   final double? menuWidth;
   final double? menuHeight;
-
 
   /// the automatically generated controller an initial value.
   final String? initialItem;
@@ -65,7 +63,6 @@ class SmartTimeField extends StatefulWidget {
   /// },
   final ListItemBuilder<String> listItemBuilder;
 
-
   /// call when you need to change the search field textAlign [TextAlign.start]
   final TextAlign textAlign;
 
@@ -73,25 +70,24 @@ class SmartTimeField extends StatefulWidget {
 
   final bool user12Hr;
 
-  const SmartTimeField({
-    super.key,
-    this.focusNode,
-    this.menuWidth,
-    this.menuHeight,
-    this.initialItem,
-    this.overlayHeight,
-    this.readOnly = false,
-    this.user12Hr = false,
-    this.autoValidateMode,
-    required this.textStyle,
-    required this.onChanged,
-    required this.controller,
-    this.timePickerDecoration,
-    required this.listItemBuilder,
-    this.enableInteractiveSelection,
-    this.textAlign = TextAlign.start,
-    this.elevation = 0
-  });
+  const SmartTimeField(
+      {super.key,
+      this.focusNode,
+      this.menuWidth,
+      this.menuHeight,
+      this.initialItem,
+      this.overlayHeight,
+      this.readOnly = false,
+      this.user12Hr = false,
+      this.autoValidateMode,
+      required this.textStyle,
+      required this.onChanged,
+      required this.controller,
+      this.timePickerDecoration,
+      required this.listItemBuilder,
+      this.enableInteractiveSelection,
+      this.textAlign = TextAlign.start,
+      this.elevation = 0});
 
   @override
   State<SmartTimeField> createState() => SmartTimeFieldState();
@@ -125,19 +121,81 @@ class SmartTimeFieldState extends State<SmartTimeField> {
   }
 
   List<String> timeSlots = [
-    "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30",
-    "04:00", "04:30", "05:00", "05:30", "06:00", "06:30", "07:00", "07:30",
-    "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-    "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30",
-    "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
-    "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
+    "00:00",
+    "00:30",
+    "01:00",
+    "01:30",
+    "02:00",
+    "02:30",
+    "03:00",
+    "03:30",
+    "04:00",
+    "04:30",
+    "05:00",
+    "05:30",
+    "06:00",
+    "06:30",
+    "07:00",
+    "07:30",
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+    "20:30",
+    "21:00",
+    "21:30",
+    "22:00",
+    "22:30",
+    "23:00",
+    "23:30"
   ];
 
   List<String> timeSlots12HrUnique = [
-    "12:00", "12:30", "01:00", "01:30", "02:00", "02:30",
-    "03:00", "03:30", "04:00", "04:30", "05:00", "05:30",
-    "06:00", "06:30", "07:00", "07:30", "08:00", "08:30",
-    "09:00", "09:30", "10:00", "10:30", "11:00", "11:30"
+    "12:00",
+    "12:30",
+    "01:00",
+    "01:30",
+    "02:00",
+    "02:30",
+    "03:00",
+    "03:30",
+    "04:00",
+    "04:30",
+    "05:00",
+    "05:30",
+    "06:00",
+    "06:30",
+    "07:00",
+    "07:30",
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30"
   ];
 
   // — make this a member so it lives across rebuilds —
@@ -171,19 +229,16 @@ class SmartTimeFieldState extends State<SmartTimeField> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if(!widget.user12Hr){
+      if (!widget.user12Hr) {
         items.addAll(timeSlots);
-      }else{
+      } else {
         items.addAll(timeSlots12HrUnique);
       }
 
-      textController.text = widget.initialItem??"";
+      textController.text = widget.initialItem ?? "";
       selectedItem = widget.initialItem;
-
     });
   }
-
-
 
   @override
   void didUpdateWidget(covariant SmartTimeField oldWidget) {
@@ -208,14 +263,14 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
   void scrollToFocusedItem() {
     RenderBox? renderBox =
-    itemListKey.currentContext?.findRenderObject() as RenderBox?;
+        itemListKey.currentContext?.findRenderObject() as RenderBox?;
 
     if (renderBox == null) return;
 
     final double itemHeight = renderBox.size.height;
 
-    final int maxVisibleItems =
-    ((widget.overlayHeight ?? 150) / itemHeight).floor(); // How many items fit in the view
+    final int maxVisibleItems = ((widget.overlayHeight ?? 150) / itemHeight)
+        .floor(); // How many items fit in the view
     final double firstVisibleIndex = scrollController.offset / itemHeight;
     final double lastVisibleIndex = firstVisibleIndex + (maxVisibleItems - 1);
 
@@ -252,26 +307,29 @@ class SmartTimeFieldState extends State<SmartTimeField> {
   void onItemSelected({int? index}) {
     widget.controller.hide();
 
-    if ((items.isNotEmpty && focusedIndex >= 0 && focusedIndex < items.length) || index != null) {
-      selectedItem = items[index??focusedIndex];
+    if ((items.isNotEmpty &&
+            focusedIndex >= 0 &&
+            focusedIndex < items.length) ||
+        index != null) {
+      selectedItem = items[index ?? focusedIndex];
       // textController.text = "${(selectedItem??"")} ${isAmSelected ? "AM" : "PM"}";
       textController.value = TextEditingValue(
         text: "${(selectedItem ?? "")} ${isAmSelected ? "AM" : "PM"}",
         selection: TextSelection.collapsed(
-          offset: "${(selectedItem ?? "")} ${isAmSelected ? "AM" : "PM"}".length,
+          offset:
+              "${(selectedItem ?? "")} ${isAmSelected ? "AM" : "PM"}".length,
         ),
       );
 
       onChangeAccordingTimeFormat(textController.text);
-
-    }else{
-      onChangeAccordingTimeFormat("${textController.text} ${isAmSelected ? "AM" : "PM"}");
+    } else {
+      onChangeAccordingTimeFormat(
+          "${textController.text} ${isAmSelected ? "AM" : "PM"}");
     }
 
     focusedIndex = -1;
     setState(() {});
   }
-
 
   onChangeAccordingTimeFormat(String passingValue) {
     widget.onChanged(passingValue);
@@ -282,7 +340,6 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
   @override
   Widget build(BuildContext context) {
-
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         if (widget.controller.isShowing) {
@@ -290,7 +347,6 @@ class SmartTimeFieldState extends State<SmartTimeField> {
         }
       },
       child: CallbackShortcuts(
-
         bindings: {
           LogicalKeySet(LogicalKeyboardKey.arrowUp): () {
             setState(() {
@@ -324,14 +380,15 @@ class SmartTimeFieldState extends State<SmartTimeField> {
           },
           LogicalKeySet(LogicalKeyboardKey.enter): () {
             // if (focusedIndex >= 0) {
-              onItemSelected();
+            onItemSelected();
             // }/
           },
         },
         child: OverlayPortal(
           controller: widget.controller,
           overlayChildBuilder: (context) {
-            final RenderBox? renderBox = textFieldKey.currentContext?.findRenderObject() as RenderBox?;
+            final RenderBox? renderBox =
+                textFieldKey.currentContext?.findRenderObject() as RenderBox?;
 
             return GestureDetector(
               onTap: () {
@@ -366,8 +423,10 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                       listPadding: widget.timePickerDecoration?.listPadding,
                       onItemSelected: (value) => onItemSelected(index: value),
                       cursorRadius: widget.timePickerDecoration?.cursorRadius,
-                      dropdownOffset: widget.timePickerDecoration?.dropdownOffset,
-                      fieldReadOnly: widget.timePickerDecoration?.fieldReadOnly ?? false,
+                      dropdownOffset:
+                          widget.timePickerDecoration?.dropdownOffset,
+                      fieldReadOnly:
+                          widget.timePickerDecoration?.fieldReadOnly ?? false,
                     )
                   ],
                 ),
@@ -392,11 +451,15 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                 child: TextFormField(
                   key: textFieldKey,
                   style: widget.textStyle,
-                  enableInteractiveSelection: widget.enableInteractiveSelection ?? (!(widget.timePickerDecoration?.fieldReadOnly ?? false)),
+                  enableInteractiveSelection: widget
+                          .enableInteractiveSelection ??
+                      (!(widget.timePickerDecoration?.fieldReadOnly ?? false)),
                   keyboardType: TextInputType.number,
                   inputFormatters: [_maskFormatter],
                   textAlign: widget.textAlign,
-                  readOnly: isTypingDisabled ? true : widget.timePickerDecoration?.fieldReadOnly ?? false,
+                  readOnly: isTypingDisabled
+                      ? true
+                      : widget.timePickerDecoration?.fieldReadOnly ?? false,
                   focusNode: widget.focusNode,
                   controller: textController,
                   showCursor: widget.timePickerDecoration?.showCursor,
@@ -405,58 +468,80 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                   cursorRadius: widget.timePickerDecoration?.cursorRadius,
                   decoration: InputDecoration(
                     isDense: widget.timePickerDecoration?.isDense ?? true,
-                    focusedBorder: widget.timePickerDecoration?.focusedBorder ?? OutlineInputBorder(),
-                    enabledBorder: widget.timePickerDecoration?.enabledBorder ?? OutlineInputBorder(),
-                    contentPadding: widget.timePickerDecoration?.contentPadding ?? EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                    suffixIcon: !widget.user12Hr ? SizedBox() : IntrinsicWidth(
-                      child: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                isAmSelected = true;
-                                onItemSelected();
-                              });
-                            },
-                            child: Container(
-                                width: widget.timePickerDecoration?.suffixDecoration?.width,
-                                height: widget.timePickerDecoration?.suffixDecoration?.height,
-                                alignment: widget.timePickerDecoration?.suffixDecoration?.alignment,
-                                padding: widget.timePickerDecoration?.suffixDecoration?.padding ?? EdgeInsets.all(08),
-                                decoration: amDecoration(isAmSelected),
-                                child: Text("AM",style: widget.timePickerDecoration?.suffixDecoration?.textStyle)
+                    focusedBorder: widget.timePickerDecoration?.focusedBorder ??
+                        OutlineInputBorder(),
+                    enabledBorder: widget.timePickerDecoration?.enabledBorder ??
+                        OutlineInputBorder(),
+                    contentPadding:
+                        widget.timePickerDecoration?.contentPadding ??
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    suffixIcon: !widget.user12Hr
+                        ? SizedBox()
+                        : IntrinsicWidth(
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isAmSelected = true;
+                                      onItemSelected();
+                                    });
+                                  },
+                                  child: Container(
+                                      width: widget.timePickerDecoration
+                                          ?.suffixDecoration?.width,
+                                      height: widget.timePickerDecoration
+                                          ?.suffixDecoration?.height,
+                                      alignment: widget.timePickerDecoration
+                                          ?.suffixDecoration?.alignment,
+                                      padding: widget.timePickerDecoration
+                                              ?.suffixDecoration?.padding ??
+                                          EdgeInsets.all(08),
+                                      decoration: amDecoration(isAmSelected),
+                                      child: Text("AM",
+                                          style: widget.timePickerDecoration
+                                              ?.suffixDecoration?.textStyle)),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isAmSelected = false;
+                                      onItemSelected();
+                                    });
+                                  },
+                                  child: Container(
+                                    width: widget.timePickerDecoration
+                                        ?.suffixDecoration?.width,
+                                    height: widget.timePickerDecoration
+                                        ?.suffixDecoration?.height,
+                                    alignment: widget.timePickerDecoration
+                                        ?.suffixDecoration?.alignment,
+                                    padding: widget.timePickerDecoration
+                                            ?.suffixDecoration?.padding ??
+                                        EdgeInsets.all(08),
+                                    decoration: pmDecoration(!isAmSelected),
+                                    child: Text("PM",
+                                        style: widget.timePickerDecoration
+                                            ?.suffixDecoration?.textStyle),
+                                  ),
+                                ),
+                                SizedBox(width: 02)
+                              ],
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                isAmSelected = false;
-                                onItemSelected();
-                              });
-                            },
-                            child: Container(
-                              width: widget.timePickerDecoration?.suffixDecoration?.width,
-                              height: widget.timePickerDecoration?.suffixDecoration?.height,
-                              alignment: widget.timePickerDecoration?.suffixDecoration?.alignment,
-                              padding: widget.timePickerDecoration?.suffixDecoration?.padding ?? EdgeInsets.all(08),
-                              decoration: pmDecoration(!isAmSelected),
-                              child: Text("PM",style: widget.timePickerDecoration?.suffixDecoration?.textStyle),
-                            ),
-                          ),
-                          SizedBox(width: 02)
-                        ],
-                      ),
-                    ),
-                    suffixIconConstraints: widget.timePickerDecoration?.suffixIconConstraints,
+                    suffixIconConstraints:
+                        widget.timePickerDecoration?.suffixIconConstraints,
                   ),
-                  cursorColor: widget.timePickerDecoration?.cursorColor ?? Colors.black,
-                  cursorErrorColor: widget.timePickerDecoration?.cursorErrorColor ?? Colors.black,
+                  cursorColor:
+                      widget.timePickerDecoration?.cursorColor ?? Colors.black,
+                  cursorErrorColor:
+                      widget.timePickerDecoration?.cursorErrorColor ??
+                          Colors.black,
                   autovalidateMode: widget.autoValidateMode,
                   validator: _timeValidator,
                   onChanged: onChange,
                   onTap: textFiledOnTap,
-                )
-            ),
+                )),
           ),
         ),
       ),
@@ -473,9 +558,9 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
     if (!(widget.readOnly)) {
       widget.controller.show();
-      if(!widget.user12Hr){
+      if (!widget.user12Hr) {
         items.addAll(timeSlots);
-      }else{
+      } else {
         items.addAll(timeSlots12HrUnique);
       }
       setState(() {});
@@ -486,7 +571,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
   onChange(value) async {
     dropDownOpen();
     RenderBox? renderBox =
-    itemListKey.currentContext?.findRenderObject() as RenderBox?;
+        itemListKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox != null) {
       focusedIndex = 0;
       scrollController.jumpTo(
@@ -507,7 +592,8 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
     // find in the unfiltered _fullSource
     final matchIndex = items.indexWhere((element) {
-      final normalizedElt = element.replaceAll(RegExp(r'^0+'), '').toLowerCase();
+      final normalizedElt =
+          element.replaceAll(RegExp(r'^0+'), '').toLowerCase();
       // print(normalizedElt);
       return normalizedElt.startsWith(search);
     });
@@ -520,41 +606,43 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
       // textController.text = value;
       setState(() {});
-    }else{
+    } else {
       focusedIndex = -1;
     }
     // if no match, you can leave focusedIndex alone or set it to -1
   }
 
-
-
-  BoxDecoration amDecoration(isSelected){
-    if(isSelected){
-      return widget.timePickerDecoration?.suffixDecoration?.selectedDecoration
-          ?? BoxDecoration(
+  BoxDecoration amDecoration(isSelected) {
+    if (isSelected) {
+      return widget
+              .timePickerDecoration?.suffixDecoration?.selectedDecoration ??
+          BoxDecoration(
               color: Colors.green,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(4),
                 bottomLeft: Radius.circular(4),
-              )
-          );
-    }else{
-      return widget.timePickerDecoration?.suffixDecoration?.unSelectedDecoration?? BoxDecoration(color: Colors.transparent);
+              ));
+    } else {
+      return widget
+              .timePickerDecoration?.suffixDecoration?.unSelectedDecoration ??
+          BoxDecoration(color: Colors.transparent);
     }
   }
 
-  BoxDecoration pmDecoration(isSelected){
-    if(isSelected){
-      return widget.timePickerDecoration?.suffixDecoration?.selectedDecoration
-          ?? BoxDecoration(
+  BoxDecoration pmDecoration(isSelected) {
+    if (isSelected) {
+      return widget
+              .timePickerDecoration?.suffixDecoration?.selectedDecoration ??
+          BoxDecoration(
               color: Colors.green,
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(4),
                 bottomRight: Radius.circular(4),
-              )
-          );
-    }else{
-      return widget.timePickerDecoration?.suffixDecoration?.unSelectedDecoration?? BoxDecoration(color: Colors.transparent);
+              ));
+    } else {
+      return widget
+              .timePickerDecoration?.suffixDecoration?.unSelectedDecoration ??
+          BoxDecoration(color: Colors.transparent);
     }
   }
 
@@ -569,10 +657,9 @@ class SmartTimeFieldState extends State<SmartTimeField> {
   String? _timeValidator(String? val) {
     if (val == null || val.isEmpty) return null;
     final parts = val.split(':');
-    final hh = int.tryParse(parts[0].padLeft(2,'0')) ?? 0;
-    final mm = parts.length > 1
-        ? (int.tryParse(parts[1].padLeft(2,'0')) ?? 0)
-        : 0;
+    final hh = int.tryParse(parts[0].padLeft(2, '0')) ?? 0;
+    final mm =
+        parts.length > 1 ? (int.tryParse(parts[1].padLeft(2, '0')) ?? 0) : 0;
     final maxHour = widget.user12Hr ? 12 : 23;
     if (hh > maxHour || mm > 59) {
       return widget.user12Hr ? 'Must be ≤ 12:59' : 'Must be ≤ 23:59';

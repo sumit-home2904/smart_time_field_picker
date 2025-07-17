@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TimePickerDecoration{
+class TimePickerDecoration {
   bool? isDense;
   bool? showCursor;
   Color? cursorColor;
@@ -17,7 +17,6 @@ class TimePickerDecoration{
   SuffixDecoration? suffixDecoration;
   EdgeInsetsGeometry? contentPadding;
   BoxConstraints? suffixIconConstraints;
-
 
   TimePickerDecoration({
     this.isDense,
@@ -55,7 +54,7 @@ class TimePickerDecoration{
     EdgeInsetsGeometry? contentPadding,
     SuffixDecoration? suffixDecoration,
     BoxConstraints? suffixIconConstraints,
-  }){
+  }) {
     TimePickerDecoration(
       isDense: isDense ?? this.isDense,
       showCursor: showCursor ?? this.showCursor,
@@ -72,17 +71,15 @@ class TimePickerDecoration{
       menuDecoration: menuDecoration ?? this.menuDecoration,
       suffixDecoration: suffixDecoration ?? this.suffixDecoration,
       cursorErrorColor: cursorErrorColor ?? this.cursorErrorColor,
-      suffixIconConstraints: suffixIconConstraints ?? this.suffixIconConstraints,
+      suffixIconConstraints:
+          suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
 
-
-
-
-class SuffixDecoration{
+class SuffixDecoration {
   TextStyle? textStyle;
-  double? height,width;
+  double? height, width;
   BoxDecoration? unSelectedDecoration;
   BoxDecoration? selectedDecoration;
   EdgeInsetsGeometry? padding;
@@ -100,12 +97,13 @@ class SuffixDecoration{
 
   SuffixDecoration.copyWith({
     TextStyle? textStyle,
-    double? height,width,
+    double? height,
+    width,
     EdgeInsetsGeometry? padding,
     AlignmentGeometry? alignment,
     BoxDecoration? selectedDecoration,
     BoxDecoration? unSelectedDecoration,
-  }){
+  }) {
     SuffixDecoration(
       width: width ?? this.width,
       height: height ?? this.height,

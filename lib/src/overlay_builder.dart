@@ -86,16 +86,17 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
   void checkRenderObjects() {
     if (key1.currentContext != null && key2.currentContext != null) {
       final RenderBox? render1 =
-      key1.currentContext?.findRenderObject() as RenderBox?;
+          key1.currentContext?.findRenderObject() as RenderBox?;
       final RenderBox? render2 =
-      key2.currentContext?.findRenderObject() as RenderBox?;
+          key2.currentContext?.findRenderObject() as RenderBox?;
 
       if (render1 != null && render2 != null) {
         final screenHeight = MediaQuery.of(context).size.height;
         double y = render1.localToGlobal(Offset.zero).dy;
 
         if (Platform.isAndroid || Platform.isIOS) {
-          if (screenHeight - y - (MediaQuery.of(context).size.height * 0.4) < render2.size.height) {
+          if (screenHeight - y - (MediaQuery.of(context).size.height * 0.4) <
+              render2.size.height) {
             displayOverlayBottom = false;
           }
         } else {
@@ -128,18 +129,19 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
         link: widget.layerLink,
         offset: setOffset(),
         followerAnchor:
-        displayOverlayBottom ? Alignment.topLeft : Alignment.bottomLeft,
+            displayOverlayBottom ? Alignment.topLeft : Alignment.bottomLeft,
         child: LayoutBuilder(builder: (context, c) {
           return SizedBox(
-            height: widget.menuHeight??150,
-            width: widget.menuWidth ??widget.renderBox?.size.width ?? c.maxWidth,
+            height: widget.menuHeight ?? 150,
+            width:
+                widget.menuWidth ?? widget.renderBox?.size.width ?? c.maxWidth,
             child: Card(
               elevation: widget.elevation,
               color: Colors.blue,
               margin: EdgeInsets.zero,
               child: Container(
                 key: key1,
-                height: widget.menuHeight??150,
+                height: widget.menuHeight ?? 150,
                 decoration: menuDecoration(),
                 child: AnimatedSection(
                   expand: true,
@@ -147,17 +149,14 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
                   axisAlignment: displayOverlayBottom ? 1.0 : -1.0,
                   child: Container(
                       key: key2,
-                      height: widget.menuHeight??150,
-                      width: MediaQuery
-                          .sizeOf(context)
-                          .width,
+                      height: widget.menuHeight ?? 150,
+                      width: MediaQuery.sizeOf(context).width,
                       child: uiListWidget()),
                 ),
               ),
             ),
           );
-        })
-    );
+        }));
   }
 
   /// This function returns the UI of drop-down tiles when the user clicks on
@@ -174,79 +173,78 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
           children: [
             Expanded(
                 child: Listener(
-                  onPointerSignal: (event) {
-                    SearchTimerMethod(milliseconds: 300).run(() {
-                      RenderBox? renderBox = widget.itemListKey.currentContext
-                          ?.findRenderObject() as RenderBox?;
-                      final double itemHeight = renderBox?.size.height ?? 30;
+              onPointerSignal: (event) {
+                SearchTimerMethod(milliseconds: 300).run(() {
+                  RenderBox? renderBox = widget.itemListKey.currentContext
+                      ?.findRenderObject() as RenderBox?;
+                  final double itemHeight = renderBox?.size.height ?? 30;
 
-                      final double firstVisibleIndex =
-                          widget.scrollController.offset / itemHeight;
+                  final double firstVisibleIndex =
+                      widget.scrollController.offset / itemHeight;
 
-                      final int museCourse =
+                  final int museCourse =
                       ((event.localPosition.dy / itemHeight) - 1).ceil();
 
-                      final int scrollIndex =
-                          firstVisibleIndex.toInt() + museCourse;
-                      widget.changeIndex(scrollIndex);
-                    });
-                  },
-                  child: ListView.builder(
-                    controller: widget.scrollController,
-                    shrinkWrap: true,
-                    physics: const ClampingScrollPhysics(),
-                    addAutomaticKeepAlives: false,
-                    addRepaintBoundaries: false,
-                    padding: widget.listPadding ?? EdgeInsets.symmetric(vertical: 4),
-                    itemCount: widget.item.length,
-                    itemBuilder: (_, index) {
-                      bool selected = widget.focusedIndex == index;
-                      // print(index);
-                      return MouseRegion(
-                        onHover: (event) {
-                          widget.changeKeyBool(false);
-                        },
-                        onEnter: (event) {
-                          if (!widget.isKeyboardNavigation) {
-                            widget.changeIndex(index);
-                          }
-                        },
-                        child: InkWell(
-                          key: widget.focusedIndex == index
-                              ? widget.itemListKey
-                              : null,
-                          onTap: () => widget.onItemSelected(index),
-                          child: widget.listItemBuilder(
-                            context, widget.item[index], selected,
-                          ),
-                        ),
-                      );
+                  final int scrollIndex =
+                      firstVisibleIndex.toInt() + museCourse;
+                  widget.changeIndex(scrollIndex);
+                });
+              },
+              child: ListView.builder(
+                controller: widget.scrollController,
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
+                padding:
+                    widget.listPadding ?? EdgeInsets.symmetric(vertical: 4),
+                itemCount: widget.item.length,
+                itemBuilder: (_, index) {
+                  bool selected = widget.focusedIndex == index;
+                  // print(index);
+                  return MouseRegion(
+                    onHover: (event) {
+                      widget.changeKeyBool(false);
                     },
-                  ),
-                )),
+                    onEnter: (event) {
+                      if (!widget.isKeyboardNavigation) {
+                        widget.changeIndex(index);
+                      }
+                    },
+                    child: InkWell(
+                      key: widget.focusedIndex == index
+                          ? widget.itemListKey
+                          : null,
+                      onTap: () => widget.onItemSelected(index),
+                      child: widget.listItemBuilder(
+                        context,
+                        widget.item[index],
+                        selected,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )),
           ],
         ),
       ),
     );
   }
 
-
-
   ///This is for the drop-down container decoration. If the user wants to provide
   /// a custom decoration, they can do so. However, if the widget is not set for
   /// the user side, we will provide our own default decoration.
   BoxDecoration menuDecoration() {
-    return  widget.timePickerDecoration?.menuDecoration?? BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(5)
-    );
+    return widget.timePickerDecoration?.menuDecoration ??
+        BoxDecoration(
+            color: Colors.grey, borderRadius: BorderRadius.circular(5));
   }
 
   Offset setOffset() {
     return Offset(widget.dropdownOffset?.dx ?? 0,
         displayOverlayBottom ? widget.dropdownOffset?.dy ?? 55 : -10);
   }
-
 }
 
 class SearchTimerMethod {

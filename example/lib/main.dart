@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
           seedColor: Colors.deepPurple,
           primary: Colors.deepPurple,
         ),
-        appBarTheme: const AppBarTheme(
-          color: Colors.deepPurple,
-        ),
+        appBarTheme: const AppBarTheme(color: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: const DropDownClass(),
@@ -36,7 +34,6 @@ class DropDownClass extends StatefulWidget {
 }
 
 class _DropDownClassState extends State<DropDownClass> {
-
   final dropdownKey = GlobalKey<SmartTimeFieldState>();
   final countryController = OverlayPortalController();
   String? value = "12:10 AM";
@@ -55,43 +52,47 @@ class _DropDownClassState extends State<DropDownClass> {
         child: Column(
           children: [
             Expanded(
-                child: SmartTimeField(
-                  user12Hr: true,
-                  key: dropdownKey,
-                  controller: countryController,
-                  initialItem: value,
-                  autoValidateMode: AutovalidateMode.onUserInteraction,
-                  timePickerDecoration: TimePickerDecoration(
-                    menuDecoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.blue
-                      )
-                    )
+              child: SmartTimeField(
+                user12Hr: true,
+                key: dropdownKey,
+                controller: countryController,
+                initialItem: value,
+                autoValidateMode: AutovalidateMode.onUserInteraction,
+                timePickerDecoration: TimePickerDecoration(
+                  menuDecoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.blue),
                   ),
-                  textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-                  onChanged: (String? va) {
-                    value = va;
-                  },
-                  listItemBuilder: (context, item, isSelected) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      margin: EdgeInsets.fromLTRB(5, 2, 5, 1),
-                      decoration: BoxDecoration(
-                          color: isSelected ? Colors.green : Colors.transparent,
-                          borderRadius: BorderRadius.circular(2)
+                ),
+                textStyle: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+                onChanged: (String? va) {
+                  value = va;
+                },
+                listItemBuilder: (context, item, isSelected) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 5,
+                    ),
+                    margin: EdgeInsets.fromLTRB(5, 2, 5, 1),
+                    decoration: BoxDecoration(
+                      color: isSelected ? Colors.green : Colors.transparent,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    child: Text(
+                      item,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isSelected ? Colors.white : Colors.black,
+                        fontWeight: FontWeight.w400,
                       ),
-                      child: Text(
-                        item,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: isSelected ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.w400
-                        ),
-                      ),
-                    );
-                  },
-                )
+                    ),
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -99,5 +100,3 @@ class _DropDownClassState extends State<DropDownClass> {
     );
   }
 }
-
-
