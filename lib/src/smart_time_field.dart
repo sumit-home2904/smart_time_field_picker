@@ -2,12 +2,12 @@ import 'package:flutter/gestures.dart';
 import  'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:text_field_time_picker/src/overlay_builder.dart';
-import 'package:text_field_time_picker/src/signatures.dart';
-import 'package:text_field_time_picker/text_field_time_picker.dart';
+import 'package:smart_time_field_picker/src/overlay_builder.dart';
+import 'package:smart_time_field_picker/src/signatures.dart';
+import 'package:smart_time_field_picker/smart_time_field_picker.dart';
 export 'time_picker_decoration.dart';
 
-class TextFieldTimePicker extends StatefulWidget {
+class SmartTimeField extends StatefulWidget {
 
   /// when you have text fields, users can usually long-press to select text,
   /// which brings up the toolbar with options like copy, paste, etc. So,
@@ -16,6 +16,11 @@ class TextFieldTimePicker extends StatefulWidget {
 
   /// Use this for [FromFieldDropDown] to read only from the dropdown you want.
   final bool readOnly;
+
+  /// get your open drop-down menu height it's have default 150 height
+  final double? menuWidth;
+  final double? menuHeight;
+
 
   /// the automatically generated controller an initial value.
   final String? initialItem;
@@ -68,9 +73,11 @@ class TextFieldTimePicker extends StatefulWidget {
 
   final bool user12Hr;
 
-  const TextFieldTimePicker({
+  const SmartTimeField({
     super.key,
     this.focusNode,
+    this.menuWidth,
+    this.menuHeight,
     this.initialItem,
     this.overlayHeight,
     this.readOnly = false,
@@ -87,10 +94,10 @@ class TextFieldTimePicker extends StatefulWidget {
   });
 
   @override
-  State<TextFieldTimePicker> createState() => TextFieldTimePickerState();
+  State<SmartTimeField> createState() => SmartTimeFieldState();
 }
 
-class TextFieldTimePickerState extends State<TextFieldTimePicker> {
+class SmartTimeFieldState extends State<SmartTimeField> {
   String? selectedItem;
   late List<String> items;
 
@@ -170,6 +177,7 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
         items.addAll(timeSlots12HrUnique);
       }
 
+      textController.text = widget.initialItem??"";
       selectedItem = widget.initialItem;
 
     });
@@ -178,15 +186,18 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
 
 
   @override
-  void didUpdateWidget(covariant TextFieldTimePicker oldWidget) {
+  void didUpdateWidget(covariant SmartTimeField oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initialItem != oldWidget.initialItem) {
         if (widget.initialItem == null) {
+          print("object else ---> ");
+
           selectedItem = null;
           textController.clear();
         } else {
+          print("object else ---> ");
           selectedItem = widget.initialItem;
           textController.text = widget.initialItem ?? "";
         }
@@ -238,29 +249,33 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
   }
 
   /// This method is called when the user selects a drop-down value item from the list
-  onItemSelected(index) {
+  void onItemSelected({int? index}) {
     widget.controller.hide();
-    if (items.isNotEmpty) {
 
-      bool value = items.contains(textController.text);
-      print("object v $value");
-      // print("object v ${textController.text}");
+    if ((items.isNotEmpty && focusedIndex >= 0 && focusedIndex < items.length) || index != null) {
+      selectedItem = items[index??focusedIndex];
+      // textController.text = "${(selectedItem??"")} ${isAmSelected ? "AM" : "PM"}";
+      textController.value = TextEditingValue(
+        text: "${(selectedItem ?? "")} ${isAmSelected ? "AM" : "PM"}",
+        selection: TextSelection.collapsed(
+          offset: "${(selectedItem ?? "")} ${isAmSelected ? "AM" : "PM"}".length,
+        ),
+      );
 
-      if(value){
-        int getSelectedIndex = items.indexWhere((element) => element == textController.text);
-        focusedIndex = getSelectedIndex;
+      onChangeAccordingTimeFormat(textController.text);
 
-        selectedItem = items[focusedIndex];
-        // textController.text = selectedItemConvertor(listData: selectedItem) ?? "$selectedItem";
-        widget.onChanged(items[focusedIndex]);
-      }else{
-        // textController.text = selectedItemConvertor(listData: selectedItem) ?? "$selectedItem";
-        widget.onChanged(textController.text as String?);
-      }
-
-      focusedIndex = -1;
-      setState(() {});
+    }else{
+      onChangeAccordingTimeFormat("${textController.text} ${isAmSelected ? "AM" : "PM"}");
     }
+
+    focusedIndex = -1;
+    setState(() {});
+  }
+
+
+  onChangeAccordingTimeFormat(String passingValue) {
+    widget.onChanged(passingValue);
+    FocusScope.of(context).unfocus();
   }
 
   final GlobalKey contentKey = GlobalKey();
@@ -308,9 +323,9 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
             });
           },
           LogicalKeySet(LogicalKeyboardKey.enter): () {
-            if (focusedIndex >= 0) {
-              onItemSelected(focusedIndex);
-            }
+            // if (focusedIndex >= 0) {
+              onItemSelected();
+            // }/
           },
         },
         child: OverlayPortal(
@@ -320,7 +335,7 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
 
             return GestureDetector(
               onTap: () {
-                widget.onChanged(textController.text);
+                onChangeAccordingTimeFormat(textController.text);
                 widget.controller.hide();
               },
               child: Container(
@@ -337,10 +352,11 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
                       onChanged: widget.onChanged,
                       elevation: widget.elevation,
                       textStyle: widget.textStyle,
+                      menuWidth: widget.menuWidth,
                       changeKeyBool: changeKeyBool,
                       controller: widget.controller,
                       changeIndex: changeFocusIndex,
-                      onItemSelected: onItemSelected,
+                      menuHeight: widget.menuHeight,
                       initialItem: widget.initialItem,
                       scrollController: scrollController,
                       overlayHeight: widget.overlayHeight,
@@ -348,6 +364,7 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
                       isKeyboardNavigation: isKeyboardNavigation,
                       timePickerDecoration: widget.timePickerDecoration,
                       listPadding: widget.timePickerDecoration?.listPadding,
+                      onItemSelected: (value) => onItemSelected(index: value),
                       cursorRadius: widget.timePickerDecoration?.cursorRadius,
                       dropdownOffset: widget.timePickerDecoration?.dropdownOffset,
                       fieldReadOnly: widget.timePickerDecoration?.fieldReadOnly ?? false,
@@ -398,6 +415,7 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
                             onTap: () {
                               setState(() {
                                 isAmSelected = true;
+                                onItemSelected();
                               });
                             },
                             child: Container(
@@ -413,6 +431,7 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
                             onTap: () {
                               setState(() {
                                 isAmSelected = false;
+                                onItemSelected();
                               });
                             },
                             child: Container(
@@ -447,10 +466,10 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
   /// drop-down on tap function
   textFiledOnTap() async {
     focusedIndex = 0;
-    textController.selection = TextSelection(
-      baseOffset: 0,
-      extentOffset: textController.text.length,
-    );
+    // textController.selection = TextSelection(
+    //   baseOffset: 0,
+    //   extentOffset: textController.text.length,
+    // );
 
     if (!(widget.readOnly)) {
       widget.controller.show();
@@ -501,9 +520,12 @@ class TextFieldTimePickerState extends State<TextFieldTimePicker> {
 
       // textController.text = value;
       setState(() {});
+    }else{
+      focusedIndex = -1;
     }
     // if no match, you can leave focusedIndex alone or set it to -1
   }
+
 
 
   BoxDecoration amDecoration(isSelected){

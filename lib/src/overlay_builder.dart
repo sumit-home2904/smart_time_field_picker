@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:text_field_time_picker/src/signatures.dart';
+import 'package:smart_time_field_picker/src/signatures.dart';
 
 import 'animated_section.dart';
 import 'time_picker_decoration.dart';
@@ -9,6 +9,8 @@ import 'time_picker_decoration.dart';
 class OverlayBuilder<T> extends StatefulWidget {
   final List<T> item;
   final T? initialItem;
+  final double? menuHeight;
+  final double? menuWidth;
   final int focusedIndex;
   final double? elevation;
   final bool fieldReadOnly;
@@ -22,10 +24,9 @@ class OverlayBuilder<T> extends StatefulWidget {
   final EdgeInsets? listPadding;
   final Function(int) changeIndex;
   final bool isKeyboardNavigation;
-  final Function(int) onItemSelected;
+  final Function(int? value) onItemSelected;
   final Function(T? value) onChanged;
   final Function(bool) changeKeyBool;
-  // final BoxDecoration? menuDecoration;
   final TimePickerDecoration? timePickerDecoration;
   final ScrollController scrollController;
   final OverlayPortalController controller;
@@ -33,20 +34,22 @@ class OverlayBuilder<T> extends StatefulWidget {
 
   const OverlayBuilder({
     super.key,
+    this.menuWidth,
     this.renderBox,
+    this.menuHeight,
     this.listPadding,
     this.initialItem,
     this.cursorRadius,
     this.elevation = 0,
     required this.item,
     this.overlayHeight,
-    this.timePickerDecoration,
     this.dropdownOffset,
     required this.textStyle,
     required this.layerLink,
     required this.onChanged,
     required this.controller,
     required this.itemListKey,
+    this.timePickerDecoration,
     required this.changeIndex,
     required this.focusedIndex,
     this.fieldReadOnly = false,
@@ -66,44 +69,7 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
   bool displayOverlayBottom = true;
 
   final GlobalKey errorButtonKey = GlobalKey();
-  final key1 = GlobalKey(),
-      key2 = GlobalKey();
-
-  /// calculate drop-down height base on item length
-  double baseOnHeightCalculate() {
-    try {
-      // final context = widget.addButtonKey.currentContext;
-      final itemKeyContext = widget.itemListKey.currentContext;
-
-      double itemHeight = 40; // Default height
-
-      // Calculate item height
-      if (itemKeyContext != null) {
-        final renderBox = itemKeyContext.findRenderObject() as RenderBox?;
-        itemHeight = renderBox?.size.height ?? 40; // Default to 40
-      }
-
-      else if (widget.item.isNotEmpty) {
-        return widget.item.length * itemHeight + 10;
-      }
-      return 125;
-    } catch (_) {
-      return  125;
-    }
-  }
-
-  /// The height of the drop-down container is calculated based on the item length or
-  /// the add button, and when no items are available, the default pass height is displayed.
-  double calculateHeight() {
-    const double staticHeight = 150.0; // Static value fallback
-    final double calculatedHeight = baseOnHeightCalculate();
-
-    // If widget.overlayHeight is not provided, use staticHeight
-    final double maxHeight = widget.overlayHeight ?? staticHeight;
-
-    // Return the smaller value between the calculated height and maxHeight
-    return calculatedHeight > maxHeight ? maxHeight : calculatedHeight;
-  }
+  final key1 = GlobalKey(), key2 = GlobalKey();
 
   @override
   void initState() {
@@ -112,7 +78,6 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
       if (widget.initialItem != null) {
         selectedItem = (widget.initialItem as T);
       }
-
       checkRenderObjects(); // Start checking render objects.
     });
   }
@@ -130,12 +95,6 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
         double y = render1.localToGlobal(Offset.zero).dy;
 
         if (Platform.isAndroid || Platform.isIOS) {
-          // print("screenHeight $screenHeight");
-          // print("y $y");
-          // print("MediaQuery.of(context).viewInsets.bottom ${keyBoardHeight}");
-          // print("render2.size.height ${render2.size.height}");
-          // print(
-          //     "calculation ${screenHeight - y - MediaQuery.of(context).viewInsets.bottom}");
           if (screenHeight - y - (MediaQuery.of(context).size.height * 0.4) < render2.size.height) {
             displayOverlayBottom = false;
           }
@@ -161,17 +120,6 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
         });
       });
     }
-
-    // Check if the item list or its length has changed
-    if (oldWidget.item != widget.item ||
-        oldWidget.item.length != widget.item.length) {
-      // Trigger a recalculation and rebuild
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {
-          baseOnHeightCalculate();
-        });
-      });
-    }
   }
 
   @override
@@ -183,15 +131,15 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
         displayOverlayBottom ? Alignment.topLeft : Alignment.bottomLeft,
         child: LayoutBuilder(builder: (context, c) {
           return SizedBox(
-            height: calculateHeight() + 4,
-            width: widget.renderBox?.size.width ?? c.maxWidth,
+            height: widget.menuHeight??150,
+            width: widget.menuWidth ??widget.renderBox?.size.width ?? c.maxWidth,
             child: Card(
               elevation: widget.elevation,
               color: Colors.blue,
               margin: EdgeInsets.zero,
               child: Container(
                 key: key1,
-                height: calculateHeight() + 4,
+                height: widget.menuHeight??150,
                 decoration: menuDecoration(),
                 child: AnimatedSection(
                   expand: true,
@@ -199,7 +147,7 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
                   axisAlignment: displayOverlayBottom ? 1.0 : -1.0,
                   child: Container(
                       key: key2,
-                      height: calculateHeight() + 4,
+                      height: widget.menuHeight??150,
                       width: MediaQuery
                           .sizeOf(context)
                           .width,
@@ -215,8 +163,6 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
   /// This function returns the UI of drop-down tiles when the user clicks on
   /// the drop-down. After that, how the drop-down will look is all defined in
   /// this function.
-  ///
-  // bool isKeyboardNavigation = false;
   Widget uiListWidget() {
     return NotificationListener<OverscrollIndicatorNotification>(
       onNotification: (notification) {
@@ -224,7 +170,6 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
         return true;
       },
       child: Container(
-        height: calculateHeight(),
         child: Column(
           children: [
             Expanded(
@@ -298,7 +243,6 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
   }
 
   Offset setOffset() {
-    // print(Offset(widget.dropdownOffset?.dx ?? 0, displayOverlayBottom ? widget.dropdownOffset?.dy ?? 55 : -10));
     return Offset(widget.dropdownOffset?.dx ?? 0,
         displayOverlayBottom ? widget.dropdownOffset?.dy ?? 55 : -10);
   }

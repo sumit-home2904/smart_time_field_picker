@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:text_field_time_picker/text_field_time_picker.dart';
+import 'package:smart_time_field_picker/smart_time_field_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,8 +37,9 @@ class DropDownClass extends StatefulWidget {
 
 class _DropDownClassState extends State<DropDownClass> {
 
-  final dropdownKey = GlobalKey<TextFieldTimePickerState>();
+  final dropdownKey = GlobalKey<SmartTimeFieldState>();
   final countryController = OverlayPortalController();
+  String? value = "12:10 AM";
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +55,24 @@ class _DropDownClassState extends State<DropDownClass> {
         child: Column(
           children: [
             Expanded(
-                child: TextFieldTimePicker(
+                child: SmartTimeField(
                   user12Hr: true,
                   key: dropdownKey,
                   controller: countryController,
+                  initialItem: value,
                   autoValidateMode: AutovalidateMode.onUserInteraction,
-                  timePickerDecoration: TimePickerDecoration(),
+                  timePickerDecoration: TimePickerDecoration(
+                    menuDecoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Colors.blue
+                      )
+                    )
+                  ),
                   textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-                  onChanged: (String? value) {},
+                  onChanged: (String? va) {
+                    value = va;
+                  },
                   listItemBuilder: (context, item, isSelected) {
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -88,3 +99,5 @@ class _DropDownClassState extends State<DropDownClass> {
     );
   }
 }
+
+

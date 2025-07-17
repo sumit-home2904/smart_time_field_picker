@@ -1,4 +1,4 @@
-name: text_field_time_picker
+name: smart_time_field_picker
 description: A customizable dropdown widget for Flutter with advanced styling, search functionality, and dynamic data handling.
 homepage: https://github.com/sumit-home2904/search_field_dropdown/tree/main/example
 repository: https://github.com/sumit-home2904/search_field_dropdown/
@@ -17,7 +17,6 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   mask_text_input_formatter: ^2.9.0
-
 
 
 dev_dependencies:
