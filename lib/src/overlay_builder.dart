@@ -79,18 +79,15 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
   /// use for move up and down when not scroll available
   void checkRenderObjects() {
     if (key1.currentContext != null && key2.currentContext != null) {
-      final RenderBox? render1 =
-          key1.currentContext?.findRenderObject() as RenderBox?;
-      final RenderBox? render2 =
-          key2.currentContext?.findRenderObject() as RenderBox?;
+      final RenderBox? render1 = key1.currentContext?.findRenderObject() as RenderBox?;
+      final RenderBox? render2 = key2.currentContext?.findRenderObject() as RenderBox?;
 
       if (render1 != null && render2 != null) {
         final screenHeight = MediaQuery.of(context).size.height;
         double y = render1.localToGlobal(Offset.zero).dy;
 
         if (Platform.isAndroid || Platform.isIOS) {
-          if (screenHeight - y - (MediaQuery.of(context).size.height * 0.4) <
-              render2.size.height) {
+          if (screenHeight - y - (MediaQuery.of(context).size.height * 0.4) < render2.size.height) {
             displayOverlayBottom = false;
           }
         } else {
@@ -122,13 +119,11 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
     return CompositedTransformFollower(
         link: widget.layerLink,
         offset: setOffset(),
-        followerAnchor:
-            displayOverlayBottom ? Alignment.topLeft : Alignment.bottomLeft,
+        followerAnchor: displayOverlayBottom ? Alignment.topLeft : Alignment.bottomLeft,
         child: LayoutBuilder(builder: (context, c) {
           return SizedBox(
             height: widget.menuHeight ?? 150,
-            width:
-                widget.menuWidth ?? widget.renderBox?.size.width ?? c.maxWidth,
+            width: widget.menuWidth ?? widget.renderBox?.size.width ?? c.maxWidth,
             child: Card(
               elevation: widget.elevation,
               color: Colors.blue,
@@ -141,11 +136,7 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
                   expand: true,
                   animationDismissed: widget.controller.hide,
                   axisAlignment: displayOverlayBottom ? 1.0 : -1.0,
-                  child: Container(
-                      key: key2,
-                      height: widget.menuHeight ?? 150,
-                      width: MediaQuery.sizeOf(context).width,
-                      child: uiListWidget()),
+                  child: Container(key: key2, height: widget.menuHeight ?? 150, width: MediaQuery.sizeOf(context).width, child: uiListWidget()),
                 ),
               ),
             ),
@@ -168,18 +159,14 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
               child: Listener(
             onPointerSignal: (event) {
               SearchTimerMethod(milliseconds: 300).run(() {
-                RenderBox? renderBox = widget.itemListKey.currentContext
-                    ?.findRenderObject() as RenderBox?;
+                RenderBox? renderBox = widget.itemListKey.currentContext?.findRenderObject() as RenderBox?;
                 final double itemHeight = renderBox?.size.height ?? 30;
 
-                final double firstVisibleIndex =
-                    widget.scrollController.offset / itemHeight;
+                final double firstVisibleIndex = widget.scrollController.offset / itemHeight;
 
-                final int museCourse =
-                    ((event.localPosition.dy / itemHeight) - 1).ceil();
+                final int museCourse = ((event.localPosition.dy / itemHeight) - 1).ceil();
 
-                final int scrollIndex =
-                    firstVisibleIndex.toInt() + museCourse;
+                final int scrollIndex = firstVisibleIndex.toInt() + museCourse;
                 widget.changeIndex(scrollIndex);
               });
             },
@@ -189,8 +176,7 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
               physics: const ClampingScrollPhysics(),
               addAutomaticKeepAlives: false,
               addRepaintBoundaries: false,
-              padding:
-                  widget.listPadding ?? EdgeInsets.symmetric(vertical: 4),
+              padding: widget.listPadding ?? EdgeInsets.symmetric(vertical: 4),
               itemCount: widget.item.length,
               itemBuilder: (_, index) {
                 bool selected = widget.focusedIndex == index;
@@ -205,30 +191,34 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
                     }
                   },
                   child: InkWell(
-                    key: widget.focusedIndex == index
-                        ? widget.itemListKey
-                        : null,
-                    onTap: () => widget.onItemSelected(index),
-                    child:Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 5,
-                        vertical: 5,
-                      ),
-                      margin: EdgeInsets.fromLTRB(5, 2, 5, 1),
-                      decoration: BoxDecoration(
-                        color: selected ? Colors.green : Colors.transparent,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                      child: Text(
-                        "${widget.item[index]}",
-                        style: widget.timePickerDecoration?.textStyle?? TextStyle(
-                          fontSize: 12,
-                          color: selected ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.w400,
+                      key: widget.focusedIndex == index ? widget.itemListKey : null,
+                      onTap: () => widget.onItemSelected(index),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        margin: EdgeInsets.fromLTRB(5, 2, 5, 1),
+                        decoration: BoxDecoration(
+                          color: selected ? widget.timePickerDecoration?.hoverColor ?? Colors.green : Colors.transparent,
+                          borderRadius: widget.timePickerDecoration?.borderRadius ?? BorderRadius.circular(2),
                         ),
-                      ),
-                    )
-                  ),
+                        child: Text(
+                          "${widget.item[index]}",
+                          locale: widget.timePickerDecoration?.locale,
+                          maxLines: widget.timePickerDecoration?.pickerTextStyle?.maxLines,
+                          textAlign: widget.timePickerDecoration?.pickerTextStyle?.textAlign,
+                          textDirection: widget.timePickerDecoration?.pickerTextStyle?.textDirection,
+                          style: TextStyle(
+                            fontSize: widget.timePickerDecoration?.pickerTextStyle?.fontSize,
+                            height: widget.timePickerDecoration?.pickerTextStyle?.height,
+                            letterSpacing: widget.timePickerDecoration?.pickerTextStyle?.letterSpacing,
+                            fontFamily: widget.timePickerDecoration?.pickerTextStyle?.fontFamily,
+                            color: selected
+                                ? widget.timePickerDecoration?.pickerTextStyle?.hoverColor ?? Colors.white
+                                : widget.timePickerDecoration?.pickerTextStyle?.color ?? Colors.black,
+                            fontWeight: widget.timePickerDecoration?.pickerTextStyle?.fontWeight,
+                            fontStyle: widget.timePickerDecoration?.pickerTextStyle?.fontStyle,
+                          ),
+                        ),
+                      )),
                 );
               },
             ),
@@ -242,14 +232,11 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
   /// a custom decoration, they can do so. However, if the widget is not set for
   /// the user side, we will provide our own default decoration.
   BoxDecoration menuDecoration() {
-    return widget.timePickerDecoration?.menuDecoration ??
-        BoxDecoration(
-            color: Colors.grey, borderRadius: BorderRadius.circular(5));
+    return widget.timePickerDecoration?.menuDecoration ?? BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5));
   }
 
   Offset setOffset() {
-    return Offset(widget.dropdownOffset?.dx ?? 0,
-        displayOverlayBottom ? widget.dropdownOffset?.dy ?? 55 : -10);
+    return Offset(widget.dropdownOffset?.dx ?? 0, displayOverlayBottom ? widget.dropdownOffset?.dy ?? 55 : -10);
   }
 }
 

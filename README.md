@@ -1,5 +1,5 @@
 # 📦 smart_time_field_picker
-A customizable Flutter plugin that provides a powerful TextFormField-based 
+A customizable Flutter plugin that provides a powerful SmartTimeField-based 
 time picker with support for:
 
 ----

@@ -16,8 +16,8 @@ class SmartTimeField extends StatefulWidget {
   final bool readOnly;
 
   /// get your open drop-down menu height it's have default 150 height
-  final double? menuWidth;
   final double? menuHeight;
+  final double? menuWidth;
 
   /// the automatically generated controller an initial value.
   final String? initialItem;
