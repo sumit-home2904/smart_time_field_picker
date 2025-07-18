@@ -42,11 +42,17 @@ A GlobalKey`<SmartTimeFieldState>` is used to uniquely identify and manage the s
 widget, allowing you to interact with its internal state (e.g., selecting an item or retrieving the selected value)
 from outside the widget.
 
+```dart
+final GlobalKey<SmartTimeFieldState<String>> timePickerKey = GlobalKey<SmartTimeFieldState<String>>();
+```
+
 **Purpose:**
 The GlobalKey`<SmartTimeFieldState>` allows you to access the state of the SmartTimeField widget,
 which is useful when you need to control the dropdown’s behavior programmatically. By associating a key
 with the SmartTimeField, you can call methods on its state, trigger a rebuild, or update its selected
 value from a parent widget or another part of your app.
+
+
 
 ```dart
 class SmartTimeClass extends StatelessWidget {
@@ -79,7 +85,6 @@ class SmartTimeClass extends StatelessWidget {
 - Dropdown item builder (optional)
 - You can customize how each time slot is displayed with dropdownItemBuilder.
 
-
 ```dart
 TimePickerDecoration(
   hintText: "Pick a time",
@@ -91,5 +96,4 @@ TimePickerDecoration(
   ),
   contentPadding: EdgeInsets.all(12),
 )
-
 ```
