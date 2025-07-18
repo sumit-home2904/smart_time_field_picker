@@ -1,36 +1,32 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:smart_time_field_picker/src/signatures.dart';
-
 import 'animated_section.dart';
 import 'time_picker_decoration.dart';
+import 'package:flutter/material.dart';
 
 class OverlayBuilder<T> extends StatefulWidget {
   final List<T> item;
   final T? initialItem;
-  final double? menuHeight;
-  final double? menuWidth;
   final int focusedIndex;
+  final double? menuWidth;
   final double? elevation;
+  final double? menuHeight;
   final bool fieldReadOnly;
   final LayerLink layerLink;
   final TextStyle textStyle;
   final Radius? cursorRadius;
   final RenderBox? renderBox;
-  final double? overlayHeight;
   final GlobalKey itemListKey;
   final Offset? dropdownOffset;
   final EdgeInsets? listPadding;
   final Function(int) changeIndex;
   final bool isKeyboardNavigation;
-  final Function(int? value) onItemSelected;
   final Function(T? value) onChanged;
   final Function(bool) changeKeyBool;
-  final TimePickerDecoration? timePickerDecoration;
   final ScrollController scrollController;
   final OverlayPortalController controller;
-  final ListItemBuilder<T> listItemBuilder;
+  final Function(int? value) onItemSelected;
+  final TimePickerDecoration? timePickerDecoration;
 
   const OverlayBuilder({
     super.key,
@@ -42,7 +38,6 @@ class OverlayBuilder<T> extends StatefulWidget {
     this.cursorRadius,
     this.elevation = 0,
     required this.item,
-    this.overlayHeight,
     this.dropdownOffset,
     required this.textStyle,
     required this.layerLink,
@@ -55,7 +50,6 @@ class OverlayBuilder<T> extends StatefulWidget {
     this.fieldReadOnly = false,
     required this.changeKeyBool,
     required this.onItemSelected,
-    required this.listItemBuilder,
     required this.scrollController,
     required this.isKeyboardNavigation,
   });
@@ -168,66 +162,78 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
         notification.disallowIndicator();
         return true;
       },
-      child: Container(
-        child: Column(
-          children: [
-            Expanded(
-                child: Listener(
-              onPointerSignal: (event) {
-                SearchTimerMethod(milliseconds: 300).run(() {
-                  RenderBox? renderBox = widget.itemListKey.currentContext
-                      ?.findRenderObject() as RenderBox?;
-                  final double itemHeight = renderBox?.size.height ?? 30;
+      child: Column(
+        children: [
+          Expanded(
+              child: Listener(
+            onPointerSignal: (event) {
+              SearchTimerMethod(milliseconds: 300).run(() {
+                RenderBox? renderBox = widget.itemListKey.currentContext
+                    ?.findRenderObject() as RenderBox?;
+                final double itemHeight = renderBox?.size.height ?? 30;
 
-                  final double firstVisibleIndex =
-                      widget.scrollController.offset / itemHeight;
+                final double firstVisibleIndex =
+                    widget.scrollController.offset / itemHeight;
 
-                  final int museCourse =
-                      ((event.localPosition.dy / itemHeight) - 1).ceil();
+                final int museCourse =
+                    ((event.localPosition.dy / itemHeight) - 1).ceil();
 
-                  final int scrollIndex =
-                      firstVisibleIndex.toInt() + museCourse;
-                  widget.changeIndex(scrollIndex);
-                });
-              },
-              child: ListView.builder(
-                controller: widget.scrollController,
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                addAutomaticKeepAlives: false,
-                addRepaintBoundaries: false,
-                padding:
-                    widget.listPadding ?? EdgeInsets.symmetric(vertical: 4),
-                itemCount: widget.item.length,
-                itemBuilder: (_, index) {
-                  bool selected = widget.focusedIndex == index;
-                  // print(index);
-                  return MouseRegion(
-                    onHover: (event) {
-                      widget.changeKeyBool(false);
-                    },
-                    onEnter: (event) {
-                      if (!widget.isKeyboardNavigation) {
-                        widget.changeIndex(index);
-                      }
-                    },
-                    child: InkWell(
-                      key: widget.focusedIndex == index
-                          ? widget.itemListKey
-                          : null,
-                      onTap: () => widget.onItemSelected(index),
-                      child: widget.listItemBuilder(
-                        context,
-                        widget.item[index],
-                        selected,
+                final int scrollIndex =
+                    firstVisibleIndex.toInt() + museCourse;
+                widget.changeIndex(scrollIndex);
+              });
+            },
+            child: ListView.builder(
+              controller: widget.scrollController,
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              addAutomaticKeepAlives: false,
+              addRepaintBoundaries: false,
+              padding:
+                  widget.listPadding ?? EdgeInsets.symmetric(vertical: 4),
+              itemCount: widget.item.length,
+              itemBuilder: (_, index) {
+                bool selected = widget.focusedIndex == index;
+                // print(index);
+                return MouseRegion(
+                  onHover: (event) {
+                    widget.changeKeyBool(false);
+                  },
+                  onEnter: (event) {
+                    if (!widget.isKeyboardNavigation) {
+                      widget.changeIndex(index);
+                    }
+                  },
+                  child: InkWell(
+                    key: widget.focusedIndex == index
+                        ? widget.itemListKey
+                        : null,
+                    onTap: () => widget.onItemSelected(index),
+                    child:Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5,
+                        vertical: 5,
                       ),
-                    ),
-                  );
-                },
-              ),
-            )),
-          ],
-        ),
+                      margin: EdgeInsets.fromLTRB(5, 2, 5, 1),
+                      decoration: BoxDecoration(
+                        color: selected ? Colors.green : Colors.transparent,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                      child: Text(
+                        "${widget.item[index]}",
+                        style: widget.timePickerDecoration?.textStyle?? TextStyle(
+                          fontSize: 12,
+                          color: selected ? Colors.white : Colors.black,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    )
+                  ),
+                );
+              },
+            ),
+          )),
+        ],
       ),
     );
   }

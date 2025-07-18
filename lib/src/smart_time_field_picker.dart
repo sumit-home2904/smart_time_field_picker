@@ -1,11 +1,10 @@
+export 'time_picker_decoration.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:smart_time_field_picker/src/overlay_builder.dart';
-import 'package:smart_time_field_picker/src/signatures.dart';
 import 'package:smart_time_field_picker/smart_time_field_picker.dart';
-export 'time_picker_decoration.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class SmartTimeField extends StatefulWidget {
   /// when you have text fields, users can usually long-press to select text,
@@ -29,8 +28,6 @@ class SmartTimeField extends StatefulWidget {
   /// Call when we need to focus; your drop-down is searchable.
   final FocusNode? focusNode;
 
-  /// provide drop-down tile height
-  final double? overlayHeight;
   final TimePickerDecoration? timePickerDecoration;
 
   /// Callback function when an item is selected.
@@ -43,26 +40,6 @@ class SmartTimeField extends StatefulWidget {
   /// Use the [OverlayPortalController] to display or conceal your drop-down.
   final OverlayPortalController controller;
 
-  /// Build your drop-down listing custom UI using this property.
-  /// dart
-  /// listItemBuilder: (context, item, isSelected) {
-  ///    return Container(
-  ///      decoration: BoxDecoration(
-  ///        color: isSelected ? Colors.green : Colors.transparent,
-  ///        borderRadius: BorderRadius.circular(2)
-  ///    ),
-  ///    child: Text(
-  ///       item,
-  ///       style: TextStyle(
-  ///       fontSize: 12,
-  ///       color: Colors.black,
-  ///         fontWeight: FontWeight.w400
-  ///      ),
-  ///     ),
-  ///   );
-  /// },
-  final ListItemBuilder<String> listItemBuilder;
-
   /// call when you need to change the search field textAlign [TextAlign.start]
   final TextAlign textAlign;
 
@@ -70,24 +47,23 @@ class SmartTimeField extends StatefulWidget {
 
   final bool user12Hr;
 
-  const SmartTimeField(
-      {super.key,
-      this.focusNode,
-      this.menuWidth,
-      this.menuHeight,
-      this.initialItem,
-      this.overlayHeight,
-      this.readOnly = false,
-      this.user12Hr = false,
-      this.autoValidateMode,
-      required this.textStyle,
-      required this.onChanged,
-      required this.controller,
-      this.timePickerDecoration,
-      required this.listItemBuilder,
-      this.enableInteractiveSelection,
-      this.textAlign = TextAlign.start,
-      this.elevation = 0});
+  const SmartTimeField({
+    super.key,
+    this.focusNode,
+    this.menuWidth,
+    this.menuHeight,
+    this.initialItem,
+    this.elevation = 0,
+    this.readOnly = false,
+    this.user12Hr = false,
+    this.autoValidateMode,
+    required this.textStyle,
+    required this.onChanged,
+    required this.controller,
+    this.timePickerDecoration,
+    this.enableInteractiveSelection,
+    this.textAlign = TextAlign.start,
+  });
 
   @override
   State<SmartTimeField> createState() => SmartTimeFieldState();
@@ -229,12 +205,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!widget.user12Hr) {
-        items.addAll(timeSlots);
-      } else {
-        items.addAll(timeSlots12HrUnique);
-      }
-
+      items = !widget.user12Hr ? [...timeSlots] : [...timeSlots12HrUnique];
       textController.text = widget.initialItem ?? "";
       selectedItem = widget.initialItem;
     });
@@ -247,15 +218,16 @@ class SmartTimeFieldState extends State<SmartTimeField> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.initialItem != oldWidget.initialItem) {
         if (widget.initialItem == null) {
-          print("object else ---> ");
-
           selectedItem = null;
           textController.clear();
         } else {
-          print("object else ---> ");
           selectedItem = widget.initialItem;
           textController.text = widget.initialItem ?? "";
         }
+      }
+
+      if(widget.user12Hr != oldWidget.user12Hr){
+        items = !widget.user12Hr ? [...timeSlots] : [...timeSlots12HrUnique];
       }
       setState(() {});
     });
@@ -269,8 +241,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
     final double itemHeight = renderBox.size.height;
 
-    final int maxVisibleItems = ((widget.overlayHeight ?? 150) / itemHeight)
-        .floor(); // How many items fit in the view
+    final int maxVisibleItems = ((widget.menuHeight ?? 150) / itemHeight).floor(); // How many items fit in the view
     final double firstVisibleIndex = scrollController.offset / itemHeight;
     final double lastVisibleIndex = firstVisibleIndex + (maxVisibleItems - 1);
 
@@ -312,19 +283,17 @@ class SmartTimeFieldState extends State<SmartTimeField> {
             focusedIndex < items.length) ||
         index != null) {
       selectedItem = items[index ?? focusedIndex];
-      // textController.text = "${(selectedItem??"")} ${isAmSelected ? "AM" : "PM"}";
+
       textController.value = TextEditingValue(
-        text: "${(selectedItem ?? "")} ${isAmSelected ? "AM" : "PM"}",
+        text: (selectedItem ?? ""),
         selection: TextSelection.collapsed(
-          offset:
-              "${(selectedItem ?? "")} ${isAmSelected ? "AM" : "PM"}".length,
+          offset: (selectedItem ?? "").length,
         ),
       );
 
       onChangeAccordingTimeFormat(textController.text);
     } else {
-      onChangeAccordingTimeFormat(
-          "${textController.text} ${isAmSelected ? "AM" : "PM"}");
+      onChangeAccordingTimeFormat(textController.text);
     }
 
     focusedIndex = -1;
@@ -379,9 +348,9 @@ class SmartTimeFieldState extends State<SmartTimeField> {
             });
           },
           LogicalKeySet(LogicalKeyboardKey.enter): () {
-            // if (focusedIndex >= 0) {
-            onItemSelected();
-            // }/
+            if (!widget.readOnly) {
+              onItemSelected();
+            }
           },
         },
         child: OverlayPortal(
@@ -416,17 +385,13 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                       menuHeight: widget.menuHeight,
                       initialItem: widget.initialItem,
                       scrollController: scrollController,
-                      overlayHeight: widget.overlayHeight,
-                      listItemBuilder: widget.listItemBuilder,
                       isKeyboardNavigation: isKeyboardNavigation,
                       timePickerDecoration: widget.timePickerDecoration,
                       listPadding: widget.timePickerDecoration?.listPadding,
                       onItemSelected: (value) => onItemSelected(index: value),
                       cursorRadius: widget.timePickerDecoration?.cursorRadius,
-                      dropdownOffset:
-                          widget.timePickerDecoration?.dropdownOffset,
-                      fieldReadOnly:
-                          widget.timePickerDecoration?.fieldReadOnly ?? false,
+                      dropdownOffset: widget.timePickerDecoration?.dropdownOffset,
+                      fieldReadOnly: widget.timePickerDecoration?.fieldReadOnly ?? false,
                     )
                   ],
                 ),
@@ -482,10 +447,12 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    setState(() {
-                                      isAmSelected = true;
-                                      onItemSelected();
-                                    });
+                                    if(!widget.readOnly) {
+                                      setState(() {
+                                        isAmSelected = true;
+                                        onItemSelected();
+                                      });
+                                    }
                                   },
                                   child: Container(
                                       width: widget.timePickerDecoration
@@ -504,10 +471,12 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                                 ),
                                 InkWell(
                                   onTap: () {
+                                    if(!widget.readOnly){
                                     setState(() {
                                       isAmSelected = false;
                                       onItemSelected();
                                     });
+                                    }
                                   },
                                   child: Container(
                                     width: widget.timePickerDecoration
@@ -588,13 +557,10 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
     // normalize leading zeros away if you like:
     final search = value.replaceAll(RegExp(r'^0+'), '').toLowerCase();
-    // print(search);
 
     // find in the unfiltered _fullSource
     final matchIndex = items.indexWhere((element) {
-      final normalizedElt =
-          element.replaceAll(RegExp(r'^0+'), '').toLowerCase();
-      // print(normalizedElt);
+      final normalizedElt = element.replaceAll(RegExp(r'^0+'), '').toLowerCase();
       return normalizedElt.startsWith(search);
     });
 

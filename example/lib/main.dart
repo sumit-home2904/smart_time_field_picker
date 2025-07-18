@@ -36,7 +36,7 @@ class DropDownClass extends StatefulWidget {
 class _DropDownClassState extends State<DropDownClass> {
   final dropdownKey = GlobalKey<SmartTimeFieldState>();
   final countryController = OverlayPortalController();
-  String? value = "12:10 AM";
+  String? value = "12:10";
 
   @override
   Widget build(BuildContext context) {
@@ -54,43 +54,16 @@ class _DropDownClassState extends State<DropDownClass> {
             Expanded(
               child: SmartTimeField(
                 user12Hr: true,
+                readOnly: true,
                 key: dropdownKey,
-                controller: countryController,
                 initialItem: value,
-                autoValidateMode: AutovalidateMode.onUserInteraction,
-                timePickerDecoration: TimePickerDecoration(
-                  menuDecoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.blue),
-                  ),
-                ),
+                controller: countryController,
                 textStyle: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                 ),
                 onChanged: (String? va) {
                   value = va;
-                },
-                listItemBuilder: (context, item, isSelected) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                      vertical: 5,
-                    ),
-                    margin: EdgeInsets.fromLTRB(5, 2, 5, 1),
-                    decoration: BoxDecoration(
-                      color: isSelected ? Colors.green : Colors.transparent,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                    child: Text(
-                      item,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isSelected ? Colors.white : Colors.black,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  );
                 },
               ),
             ),

@@ -6,6 +6,7 @@ class TimePickerDecoration {
   Color? cursorColor;
   bool? fieldReadOnly;
   double? cursorWidth;
+  TextStyle? textStyle;
   double? cursorHeight;
   Radius? cursorRadius;
   Offset? dropdownOffset;
@@ -20,6 +21,7 @@ class TimePickerDecoration {
 
   TimePickerDecoration({
     this.isDense,
+    this.textStyle,
     this.showCursor,
     this.cursorWidth,
     this.cursorColor,
@@ -44,6 +46,7 @@ class TimePickerDecoration {
     double? cursorWidth,
     bool? fieldReadOnly,
     double? cursorHeight,
+    TextStyle? textStyle,
     Radius? cursorRadius,
     Offset? dropdownOffset,
     EdgeInsets? listPadding,
@@ -58,6 +61,7 @@ class TimePickerDecoration {
     TimePickerDecoration(
       isDense: isDense ?? this.isDense,
       showCursor: showCursor ?? this.showCursor,
+      textStyle: textStyle ?? this.textStyle,
       cursorColor: cursorColor ?? this.cursorColor,
       cursorWidth: cursorWidth ?? this.cursorWidth,
       listPadding: listPadding ?? this.listPadding,
