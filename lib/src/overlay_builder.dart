@@ -232,7 +232,7 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
   /// a custom decoration, they can do so. However, if the widget is not set for
   /// the user side, we will provide our own default decoration.
   BoxDecoration menuDecoration() {
-    return widget.timePickerDecoration?.menuDecoration ?? BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(5));
+    return widget.timePickerDecoration?.menuDecoration ?? BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5));
   }
 
   Offset setOffset() {

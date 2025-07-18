@@ -54,7 +54,6 @@ class _DropDownClassState extends State<DropDownClass> {
             Expanded(
               child: SmartTimeField(
                 user12Hr: true,
-                readOnly: true,
                 key: dropdownKey,
                 initialItem: value,
                 controller: countryController,
