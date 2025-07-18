@@ -226,7 +226,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
         }
       }
 
-      if(widget.user12Hr != oldWidget.user12Hr){
+      if (widget.user12Hr != oldWidget.user12Hr) {
         items = !widget.user12Hr ? [...timeSlots] : [...timeSlots12HrUnique];
       }
       setState(() {});
@@ -241,7 +241,8 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
     final double itemHeight = renderBox.size.height;
 
-    final int maxVisibleItems = ((widget.menuHeight ?? 150) / itemHeight).floor(); // How many items fit in the view
+    final int maxVisibleItems = ((widget.menuHeight ?? 150) / itemHeight)
+        .floor(); // How many items fit in the view
     final double firstVisibleIndex = scrollController.offset / itemHeight;
     final double lastVisibleIndex = firstVisibleIndex + (maxVisibleItems - 1);
 
@@ -390,8 +391,10 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                       listPadding: widget.timePickerDecoration?.listPadding,
                       onItemSelected: (value) => onItemSelected(index: value),
                       cursorRadius: widget.timePickerDecoration?.cursorRadius,
-                      dropdownOffset: widget.timePickerDecoration?.dropdownOffset,
-                      fieldReadOnly: widget.timePickerDecoration?.fieldReadOnly ?? false,
+                      dropdownOffset:
+                          widget.timePickerDecoration?.dropdownOffset,
+                      fieldReadOnly:
+                          widget.timePickerDecoration?.fieldReadOnly ?? false,
                     )
                   ],
                 ),
@@ -447,7 +450,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    if(!widget.readOnly) {
+                                    if (!widget.readOnly) {
                                       setState(() {
                                         isAmSelected = true;
                                         onItemSelected();
@@ -471,11 +474,11 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    if(!widget.readOnly){
-                                    setState(() {
-                                      isAmSelected = false;
-                                      onItemSelected();
-                                    });
+                                    if (!widget.readOnly) {
+                                      setState(() {
+                                        isAmSelected = false;
+                                        onItemSelected();
+                                      });
                                     }
                                   },
                                   child: Container(
@@ -560,7 +563,8 @@ class SmartTimeFieldState extends State<SmartTimeField> {
 
     // find in the unfiltered _fullSource
     final matchIndex = items.indexWhere((element) {
-      final normalizedElt = element.replaceAll(RegExp(r'^0+'), '').toLowerCase();
+      final normalizedElt =
+          element.replaceAll(RegExp(r'^0+'), '').toLowerCase();
       return normalizedElt.startsWith(search);
     });
 

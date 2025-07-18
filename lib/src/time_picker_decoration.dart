@@ -91,7 +91,8 @@ class TimePickerDecoration {
       pickerTextStyle: pickerTextStyle ?? this.pickerTextStyle,
       suffixDecoration: suffixDecoration ?? this.suffixDecoration,
       cursorErrorColor: cursorErrorColor ?? this.cursorErrorColor,
-      suffixIconConstraints: suffixIconConstraints ?? this.suffixIconConstraints,
+      suffixIconConstraints:
+          suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
@@ -135,7 +136,6 @@ class SuffixDecoration {
   }
 }
 
-
 class PickerTextStyle {
   final Color? color;
   final int? maxLines;
@@ -167,7 +167,6 @@ class PickerTextStyle {
     this.textDirection,
   });
 
-
   PickerTextStyle copyWith({
     Color? color,
     int? maxLines,
@@ -183,7 +182,6 @@ class PickerTextStyle {
     TextBaseline? textBaseline,
     TextDirection? textDirection,
   }) {
-
     return PickerTextStyle(
       color: color ?? this.color,
       height: height ?? this.height,
@@ -201,5 +199,3 @@ class PickerTextStyle {
     );
   }
 }
-
-
