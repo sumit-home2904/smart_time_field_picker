@@ -22,6 +22,12 @@ class SmartTimeField extends StatefulWidget {
   /// the automatically generated controller an initial value.
   final String? initialItem;
 
+  /// you can give your custom error text for 24Hour type Selected
+  final String? errorFor24Hour;
+
+  /// you can give your custom error text for 12Hour type Selected
+  final String? errorFor12Hour;
+
   /// Use this to style your search or selected text.
   final TextStyle textStyle;
 
@@ -54,6 +60,8 @@ class SmartTimeField extends StatefulWidget {
     this.menuHeight,
     this.initialItem,
     this.elevation = 0,
+    this.errorFor12Hour,
+    this.errorFor24Hour,
     this.readOnly = false,
     this.user12Hr = false,
     this.autoValidateMode,
@@ -63,7 +71,10 @@ class SmartTimeField extends StatefulWidget {
     this.timePickerDecoration,
     this.enableInteractiveSelection,
     this.textAlign = TextAlign.start,
-  });
+  }): assert(
+  errorFor12Hour == null || errorFor24Hour == null,
+  'You can only provide either errorFor12Hour or errorFor24Hour, not both.',
+  );
 
   @override
   State<SmartTimeField> createState() => SmartTimeFieldState();
@@ -435,17 +446,22 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                   cursorWidth: widget.timePickerDecoration?.cursorWidth ?? 2.0,
                   cursorRadius: widget.timePickerDecoration?.cursorRadius,
                   decoration: InputDecoration(
+                    error: widget.timePickerDecoration?.error,
+                    label: widget.timePickerDecoration?.label,
+                    filled: widget.timePickerDecoration?.filled,
+                    hintText: widget.timePickerDecoration?.hintText,
+                    hintStyle: widget.timePickerDecoration?.hintStyle,
+                    fillColor: widget.timePickerDecoration?.fillColor,
+                    prefixIcon: widget.timePickerDecoration?.prefixIcon,
+                    errorStyle: widget.timePickerDecoration?.errorStyle,
+                    enabled: widget.timePickerDecoration?.enabled ?? true,
                     isDense: widget.timePickerDecoration?.isDense ?? true,
-                    focusedBorder: widget.timePickerDecoration?.focusedBorder ??
-                        OutlineInputBorder(),
-                    enabledBorder: widget.timePickerDecoration?.enabledBorder ??
-                        OutlineInputBorder(),
-                    contentPadding:
-                        widget.timePickerDecoration?.contentPadding ??
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    suffixIcon: !widget.user12Hr
-                        ? SizedBox()
-                        : IntrinsicWidth(
+                    errorBorder: widget.timePickerDecoration?.errorBorder,
+                    errorMaxLines: widget.timePickerDecoration?.errorMaxLines,
+                    focusedBorder: widget.timePickerDecoration?.focusedBorder ?? OutlineInputBorder(),
+                    enabledBorder: widget.timePickerDecoration?.enabledBorder ?? OutlineInputBorder(),
+                    contentPadding: widget.timePickerDecoration?.contentPadding ?? EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    suffixIcon: !widget.user12Hr ? SizedBox() : IntrinsicWidth(
                             child: Row(
                               children: [
                                 InkWell(
@@ -501,8 +517,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                               ],
                             ),
                           ),
-                    suffixIconConstraints:
-                        widget.timePickerDecoration?.suffixIconConstraints,
+                    suffixIconConstraints: widget.timePickerDecoration?.suffixIconConstraints,
                   ),
                   cursorColor:
                       widget.timePickerDecoration?.cursorColor ?? Colors.black,
@@ -632,7 +647,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
         parts.length > 1 ? (int.tryParse(parts[1].padLeft(2, '0')) ?? 0) : 0;
     final maxHour = widget.user12Hr ? 12 : 23;
     if (hh > maxHour || mm > 59) {
-      return widget.user12Hr ? 'Must be ≤ 12:59' : 'Must be ≤ 23:59';
+      return widget.user12Hr ? widget.errorFor12Hour ?? 'Must be ≤ 12:59' : widget.errorFor24Hour ??'Must be ≤ 23:59';
     }
     return null;
   }

@@ -2,18 +2,29 @@ import 'package:flutter/material.dart';
 
 class TimePickerDecoration {
   bool? isDense;
+  bool? enabled;
+  bool? filled;
+  Widget? label;
+  Widget? error;
   Locale? locale;
   bool? showCursor;
-  Color? cursorColor;
+  Color? fillColor;
+  Widget? prefixIcon;
+  String ? hintText;
   Color? hoverColor;
+  int? errorMaxLines;
+  Color? cursorColor;
   bool? fieldReadOnly;
   double? cursorWidth;
   TextStyle? textStyle;
+  TextStyle? hintStyle;
+  TextStyle? errorStyle;
   double? cursorHeight;
   Radius? cursorRadius;
   Offset? dropdownOffset;
   Color? cursorErrorColor;
   EdgeInsets? listPadding;
+  InputBorder? errorBorder;
   InputBorder? focusedBorder;
   InputBorder? enabledBorder;
   BoxDecoration? menuDecoration;
@@ -24,17 +35,28 @@ class TimePickerDecoration {
   BoxConstraints? suffixIconConstraints;
 
   TimePickerDecoration({
+    this.label,
+    this.error,
     this.locale,
+    this.filled,
+    this.enabled,
     this.isDense,
+    this.hintText,
     this.textStyle,
+    this.fillColor,
+    this.prefixIcon,
+    this.hintStyle,
     this.hoverColor,
+    this.errorStyle,
     this.showCursor,
     this.cursorWidth,
     this.cursorColor,
     this.listPadding,
+    this.errorBorder,
     this.borderRadius,
     this.cursorHeight,
     this.cursorRadius,
+    this.errorMaxLines,
     this.fieldReadOnly,
     this.enabledBorder,
     this.focusedBorder,
@@ -48,19 +70,30 @@ class TimePickerDecoration {
   });
 
   TimePickerDecoration.copyWith({
+    bool? filled,
     bool? isDense,
+    bool? enabled,
+    Widget? error,
+    Widget? label,
     Locale? locale,
+    Color? fillColor,
     bool? showCursor,
+    String? hintText,
     Color? hoverColor,
+    Widget? prefixIcon,
+    int? errorMaxLines,
     Color? cursorColor,
     double? cursorWidth,
     bool? fieldReadOnly,
     double? cursorHeight,
     TextStyle? textStyle,
+    TextStyle? hintStyle,
+    TextStyle? errorStyle,
     Radius? cursorRadius,
     Offset? dropdownOffset,
     EdgeInsets? listPadding,
     Color? cursorErrorColor,
+    InputBorder? errorBorder,
     InputBorder? enabledBorder,
     InputBorder? focusedBorder,
     BoxDecoration? menuDecoration,
@@ -71,11 +104,21 @@ class TimePickerDecoration {
     BoxConstraints? suffixIconConstraints,
   }) {
     TimePickerDecoration(
+      label: label ?? this.label,
+      error: error ?? this.error,
+      filled: filled ?? this.filled,
       locale: locale ?? this.locale,
+      enabled: enabled ?? this.enabled,
       isDense: isDense ?? this.isDense,
+      hintText: hintText ?? this.hintText,
+      hintStyle: hintStyle ?? this.hintStyle,
+      fillColor: fillColor ?? this.fillColor,
       textStyle: textStyle ?? this.textStyle,
+      prefixIcon: prefixIcon ?? this.prefixIcon,
+      errorStyle: errorStyle ?? this.errorStyle,
       hoverColor: hoverColor ?? this.hoverColor,
       showCursor: showCursor ?? this.showCursor,
+      errorBorder: errorBorder ?? this.errorBorder,
       cursorColor: cursorColor ?? this.cursorColor,
       cursorWidth: cursorWidth ?? this.cursorWidth,
       listPadding: listPadding ?? this.listPadding,
@@ -84,6 +127,7 @@ class TimePickerDecoration {
       cursorRadius: cursorRadius ?? this.cursorRadius,
       fieldReadOnly: fieldReadOnly ?? this.fieldReadOnly,
       enabledBorder: enabledBorder ?? this.enabledBorder,
+      errorMaxLines: errorMaxLines ?? this.errorMaxLines,
       focusedBorder: focusedBorder ?? this.focusedBorder,
       dropdownOffset: dropdownOffset ?? this.dropdownOffset,
       contentPadding: contentPadding ?? this.contentPadding,
@@ -91,8 +135,7 @@ class TimePickerDecoration {
       pickerTextStyle: pickerTextStyle ?? this.pickerTextStyle,
       suffixDecoration: suffixDecoration ?? this.suffixDecoration,
       cursorErrorColor: cursorErrorColor ?? this.cursorErrorColor,
-      suffixIconConstraints:
-          suffixIconConstraints ?? this.suffixIconConstraints,
+      suffixIconConstraints: suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
