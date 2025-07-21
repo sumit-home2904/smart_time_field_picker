@@ -71,10 +71,10 @@ class SmartTimeField extends StatefulWidget {
     this.timePickerDecoration,
     this.enableInteractiveSelection,
     this.textAlign = TextAlign.start,
-  }): assert(
-  errorFor12Hour == null || errorFor24Hour == null,
-  'You can only provide either errorFor12Hour or errorFor24Hour, not both.',
-  );
+  }) : assert(
+          errorFor12Hour == null || errorFor24Hour == null,
+          'You can only provide either errorFor12Hour or errorFor24Hour, not both.',
+        );
 
   @override
   State<SmartTimeField> createState() => SmartTimeFieldState();
@@ -458,10 +458,16 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                     isDense: widget.timePickerDecoration?.isDense ?? true,
                     errorBorder: widget.timePickerDecoration?.errorBorder,
                     errorMaxLines: widget.timePickerDecoration?.errorMaxLines,
-                    focusedBorder: widget.timePickerDecoration?.focusedBorder ?? OutlineInputBorder(),
-                    enabledBorder: widget.timePickerDecoration?.enabledBorder ?? OutlineInputBorder(),
-                    contentPadding: widget.timePickerDecoration?.contentPadding ?? EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                    suffixIcon: !widget.user12Hr ? SizedBox() : IntrinsicWidth(
+                    focusedBorder: widget.timePickerDecoration?.focusedBorder ??
+                        OutlineInputBorder(),
+                    enabledBorder: widget.timePickerDecoration?.enabledBorder ??
+                        OutlineInputBorder(),
+                    contentPadding:
+                        widget.timePickerDecoration?.contentPadding ??
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    suffixIcon: !widget.user12Hr
+                        ? SizedBox()
+                        : IntrinsicWidth(
                             child: Row(
                               children: [
                                 InkWell(
@@ -517,7 +523,8 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                               ],
                             ),
                           ),
-                    suffixIconConstraints: widget.timePickerDecoration?.suffixIconConstraints,
+                    suffixIconConstraints:
+                        widget.timePickerDecoration?.suffixIconConstraints,
                   ),
                   cursorColor:
                       widget.timePickerDecoration?.cursorColor ?? Colors.black,
@@ -647,7 +654,9 @@ class SmartTimeFieldState extends State<SmartTimeField> {
         parts.length > 1 ? (int.tryParse(parts[1].padLeft(2, '0')) ?? 0) : 0;
     final maxHour = widget.user12Hr ? 12 : 23;
     if (hh > maxHour || mm > 59) {
-      return widget.user12Hr ? widget.errorFor12Hour ?? 'Must be ≤ 12:59' : widget.errorFor24Hour ??'Must be ≤ 23:59';
+      return widget.user12Hr
+          ? widget.errorFor12Hour ?? 'Must be ≤ 12:59'
+          : widget.errorFor24Hour ?? 'Must be ≤ 23:59';
     }
     return null;
   }

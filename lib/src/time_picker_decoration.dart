@@ -10,7 +10,7 @@ class TimePickerDecoration {
   bool? showCursor;
   Color? fillColor;
   Widget? prefixIcon;
-  String ? hintText;
+  String? hintText;
   Color? hoverColor;
   int? errorMaxLines;
   Color? cursorColor;
@@ -135,7 +135,8 @@ class TimePickerDecoration {
       pickerTextStyle: pickerTextStyle ?? this.pickerTextStyle,
       suffixDecoration: suffixDecoration ?? this.suffixDecoration,
       cursorErrorColor: cursorErrorColor ?? this.cursorErrorColor,
-      suffixIconConstraints: suffixIconConstraints ?? this.suffixIconConstraints,
+      suffixIconConstraints:
+          suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
