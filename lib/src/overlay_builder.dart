@@ -4,30 +4,79 @@ import 'animated_section.dart';
 import 'time_picker_decoration.dart';
 import 'package:flutter/material.dart';
 
+/// A widget that builds a custom dropdown overlay for displaying a list of items.
+///
+/// The overlay is positioned using a [LayerLink] and can be fully customized
+/// with width, height, styling, and behavior. It supports both keyboard and
+/// pointer navigation.
 class OverlayBuilder<T> extends StatefulWidget {
+  /// The list of items to display in the overlay.
   final List<T> item;
+
+  /// The initially selected item.
   final T? initialItem;
+
+  /// The index of the currently focused item.
   final int focusedIndex;
+
+  /// The width of the dropdown menu.
   final double? menuWidth;
+
+  /// The elevation of the dropdown card.
   final double? elevation;
+
+  /// The height of the dropdown menu.
   final double? menuHeight;
+
+  /// Whether the associated text field is read-only.
   final bool fieldReadOnly;
+
+  /// Link to the composited layer where this overlay should attach.
   final LayerLink layerLink;
+
+  /// The text style used to display items.
   final TextStyle textStyle;
+
+  /// The radius of the text cursor (if applicable).
   final Radius? cursorRadius;
+
+  /// The render box of the anchor widget, used to determine width.
   final RenderBox? renderBox;
+
+  /// Key used to identify the currently focused item in the list.
   final GlobalKey itemListKey;
+
+  /// The offset for positioning the dropdown relative to its anchor.
   final Offset? dropdownOffset;
+
+  /// Padding around the list of items in the overlay.
   final EdgeInsets? listPadding;
+
+  /// Callback triggered when the focused index changes.
   final Function(int) changeIndex;
+
+  /// Whether keyboard navigation is currently active.
   final bool isKeyboardNavigation;
+
+  /// Callback triggered when an item is selected.
   final Function(T? value) onChanged;
+
+  /// Callback to update the hover/keyboard navigation flag.
   final Function(bool) changeKeyBool;
+
+  /// Scroll controller for the list of items.
   final ScrollController scrollController;
+
+  /// Controller to show or hide the overlay.
   final OverlayPortalController controller;
+
+  /// Callback triggered when a list item is tapped.
   final Function(int? value) onItemSelected;
+
+  /// Optional styling and decoration for the dropdown menu.
   final TimePickerDecoration? timePickerDecoration;
 
+  /// Creates an [OverlayBuilder].
   const OverlayBuilder({
     super.key,
     this.menuWidth,
@@ -76,7 +125,8 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
     });
   }
 
-  /// use for move up and down when not scroll available
+  /// Checks whether the overlay should be displayed above or below the anchor
+  /// based on available screen space.
   void checkRenderObjects() {
     if (key1.currentContext != null && key2.currentContext != null) {
       final RenderBox? render1 =
@@ -120,11 +170,12 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
   @override
   Widget build(BuildContext context) {
     return CompositedTransformFollower(
-        link: widget.layerLink,
-        offset: setOffset(),
-        followerAnchor:
-            displayOverlayBottom ? Alignment.topLeft : Alignment.bottomLeft,
-        child: LayoutBuilder(builder: (context, c) {
+      link: widget.layerLink,
+      offset: setOffset(),
+      followerAnchor:
+          displayOverlayBottom ? Alignment.topLeft : Alignment.bottomLeft,
+      child: LayoutBuilder(
+        builder: (context, c) {
           return SizedBox(
             height: widget.menuHeight ?? 150,
             width:
@@ -142,20 +193,21 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
                   animationDismissed: widget.controller.hide,
                   axisAlignment: displayOverlayBottom ? 1.0 : -1.0,
                   child: Container(
-                      key: key2,
-                      height: widget.menuHeight ?? 150,
-                      width: MediaQuery.sizeOf(context).width,
-                      child: uiListWidget()),
+                    key: key2,
+                    height: widget.menuHeight ?? 150,
+                    width: MediaQuery.sizeOf(context).width,
+                    child: uiListWidget(),
+                  ),
                 ),
               ),
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
-  /// This function returns the UI of drop-down tiles when the user clicks on
-  /// the drop-down. After that, how the drop-down will look is all defined in
-  /// this function.
+  /// Builds the list of items in the dropdown menu with hover and tap handling.
   Widget uiListWidget() {
     return NotificationListener<OverscrollIndicatorNotification>(
       onNotification: (notification) {
@@ -165,44 +217,45 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
       child: Column(
         children: [
           Expanded(
-              child: Listener(
-            onPointerSignal: (event) {
-              SearchTimerMethod(milliseconds: 300).run(() {
-                RenderBox? renderBox = widget.itemListKey.currentContext
-                    ?.findRenderObject() as RenderBox?;
-                final double itemHeight = renderBox?.size.height ?? 30;
+            child: Listener(
+              onPointerSignal: (event) {
+                SearchTimerMethod(milliseconds: 300).run(() {
+                  RenderBox? renderBox = widget.itemListKey.currentContext
+                      ?.findRenderObject() as RenderBox?;
+                  final double itemHeight = renderBox?.size.height ?? 30;
 
-                final double firstVisibleIndex =
-                    widget.scrollController.offset / itemHeight;
+                  final double firstVisibleIndex =
+                      widget.scrollController.offset / itemHeight;
 
-                final int museCourse =
-                    ((event.localPosition.dy / itemHeight) - 1).ceil();
+                  final int museCourse =
+                      ((event.localPosition.dy / itemHeight) - 1).ceil();
 
-                final int scrollIndex = firstVisibleIndex.toInt() + museCourse;
-                widget.changeIndex(scrollIndex);
-              });
-            },
-            child: ListView.builder(
-              controller: widget.scrollController,
-              shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
-              addAutomaticKeepAlives: false,
-              addRepaintBoundaries: false,
-              padding: widget.listPadding ?? EdgeInsets.symmetric(vertical: 4),
-              itemCount: widget.item.length,
-              itemBuilder: (_, index) {
-                bool selected = widget.focusedIndex == index;
-                // print(index);
-                return MouseRegion(
-                  onHover: (event) {
-                    widget.changeKeyBool(false);
-                  },
-                  onEnter: (event) {
-                    if (!widget.isKeyboardNavigation) {
-                      widget.changeIndex(index);
-                    }
-                  },
-                  child: InkWell(
+                  final int scrollIndex =
+                      firstVisibleIndex.toInt() + museCourse;
+                  widget.changeIndex(scrollIndex);
+                });
+              },
+              child: ListView.builder(
+                controller: widget.scrollController,
+                shrinkWrap: true,
+                physics: const ClampingScrollPhysics(),
+                addAutomaticKeepAlives: false,
+                addRepaintBoundaries: false,
+                padding:
+                    widget.listPadding ?? EdgeInsets.symmetric(vertical: 4),
+                itemCount: widget.item.length,
+                itemBuilder: (_, index) {
+                  bool selected = widget.focusedIndex == index;
+                  return MouseRegion(
+                    onHover: (event) {
+                      widget.changeKeyBool(false);
+                    },
+                    onEnter: (event) {
+                      if (!widget.isKeyboardNavigation) {
+                        widget.changeIndex(index);
+                      }
+                    },
+                    child: InkWell(
                       key: widget.focusedIndex == index
                           ? widget.itemListKey
                           : null,
@@ -251,40 +304,53 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
                                 ?.pickerTextStyle?.fontStyle,
                           ),
                         ),
-                      )),
-                );
-              },
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-          )),
+          ),
         ],
       ),
     );
   }
 
-  ///This is for the drop-down container decoration. If the user wants to provide
-  /// a custom decoration, they can do so. However, if the widget is not set for
-  /// the user side, we will provide our own default decoration.
+  /// Returns the decoration for the dropdown container.
   BoxDecoration menuDecoration() {
     return widget.timePickerDecoration?.menuDecoration ??
         BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(5));
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+        );
   }
 
+  /// Calculates the offset for the dropdown based on alignment and screen space.
   Offset setOffset() {
-    return Offset(widget.dropdownOffset?.dx ?? 0,
-        displayOverlayBottom ? widget.dropdownOffset?.dy ?? 55 : -10);
+    return Offset(
+      widget.dropdownOffset?.dx ?? 0,
+      displayOverlayBottom ? widget.dropdownOffset?.dy ?? 55 : -10,
+    );
   }
 }
 
+/// A helper class to debounce pointer scroll events in the dropdown.
 class SearchTimerMethod {
+  /// The debounce duration in milliseconds.
   final int milliseconds;
+
+  /// The action to execute after the debounce duration.
   late VoidCallback action;
+
+  /// Timer used to manage the debounce.
   Timer? timer;
 
+  /// Creates a [SearchTimerMethod] with the given debounce [milliseconds].
   SearchTimerMethod({required this.milliseconds});
 
-  run(VoidCallback action) {
-    if (null != timer) {
+  /// Runs the given [action] after the debounce duration.
+  void run(VoidCallback action) {
+    if (timer != null) {
       timer!.cancel();
     }
     timer = Timer(Duration(milliseconds: milliseconds), action);

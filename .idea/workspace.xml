@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="553aff46-fb03-48c5-bdf0-3f6898f41a76" name="Changes" comment="bug fix">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/smart_time_field_picker.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/smart_time_field_picker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/smart_time_field_picker.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/time_picker_decoration.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/time_picker_decoration.dart" afterDir="false" />
+    <list default="true" id="553aff46-fb03-48c5-bdf0-3f6898f41a76" name="Changes" comment="mode decoration property added">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +147,31 @@
       <option name="project" value="LOCAL" />
       <updated>1753073783145</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="mode decoration property added">
+      <option name="closed" value="true" />
+      <created>1753075501637</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1753075501637</updated>
+    </task>
+    <task id="LOCAL-00009" summary="mode decoration property added">
+      <option name="closed" value="true" />
+      <created>1753075530142</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1753075530142</updated>
+    </task>
+    <task id="LOCAL-00010" summary="mode decoration property added">
+      <option name="closed" value="true" />
+      <created>1753075670934</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1753075670934</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -165,6 +179,7 @@
     <MESSAGE value="Code complete" />
     <MESSAGE value="format and rename" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+    <MESSAGE value="mode decoration property added" />
+    <option name="LAST_COMMIT_MESSAGE" value="mode decoration property added" />
   </component>
 </project>

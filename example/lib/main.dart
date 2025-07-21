@@ -56,6 +56,9 @@ class _DropDownClassState extends State<DropDownClass> {
                 user12Hr: true,
                 key: dropdownKey,
                 initialItem: value,
+                timePickerDecoration: TimePickerDecoration(
+                  pickerTextStyle: PickerTextStyle(),
+                ),
                 controller: countryController,
                 textStyle: const TextStyle(
                   fontSize: 12,
