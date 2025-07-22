@@ -263,7 +263,8 @@ class FieldDecoration {
       focusedBorder: focusedBorder ?? this.focusedBorder,
       contentPadding: contentPadding ?? this.contentPadding,
       focusedErrorBorder: focusedErrorBorder ?? this.focusedErrorBorder,
-      suffixIconConstraints: suffixIconConstraints ?? this.suffixIconConstraints,
+      suffixIconConstraints:
+          suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
