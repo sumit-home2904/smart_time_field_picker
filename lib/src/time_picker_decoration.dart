@@ -1,10 +1,139 @@
 import 'package:flutter/material.dart';
 
-/// Defines the overall decoration and styling for a [SmartTimeField].
+/// Defines the overall fieldDecoration and styling for a [SmartTimeField].
 ///
 /// Customize the appearance of the picker menu, text field, cursor, errors,
 /// and dropdown elements using this class.
 class TimePickerDecoration {
+  /// The color of the text cursor.
+  Color? cursorColor;
+  FieldDecoration? fieldDecoration;
+
+  /// Whether the text field is read-only.
+  bool? fieldReadOnly;
+
+  /// The width of the text cursor.
+  double? cursorWidth;
+
+  /// The style applied to the input text.
+  TextStyle? textStyle;
+
+  /// The height of the text cursor.
+  double? cursorHeight;
+
+  /// The radius of the text cursor.
+  Radius? cursorRadius;
+
+  /// Offset to adjust the dropdown menu position.
+  Offset? dropdownOffset;
+
+  /// The color of the cursor when an error occurs.
+  Color? cursorErrorColor;
+
+  /// Padding around the list of items in the dropdown menu.
+  EdgeInsets? listPadding;
+
+  /// The hover color of the text field.
+  Color? hoverColor;
+
+  /// Decoration applied to the dropdown menu container.
+  BoxDecoration? menuDecoration;
+
+  /// Text style used inside the dropdown menu items.
+  PickerTextStyle? pickerTextStyle;
+
+  /// Border radius of the dropdown menu.
+  BorderRadiusGeometry? borderRadius;
+
+  /// Whether to display the text cursor.
+  bool? showCursor;
+
+  /// Decoration applied to suffix elements such as AM/PM buttons.
+  SuffixDecoration? suffixDecoration;
+
+  /// Creates a [TimePickerDecoration] with the given parameters.
+  TimePickerDecoration(
+      {this.textStyle,
+      this.showCursor,
+      this.hoverColor,
+      this.cursorWidth,
+      this.cursorColor,
+      this.listPadding,
+      this.borderRadius,
+      this.cursorHeight,
+      this.cursorRadius,
+      this.fieldReadOnly,
+      this.dropdownOffset,
+      this.menuDecoration,
+      this.pickerTextStyle,
+      this.cursorErrorColor,
+      this.suffixDecoration,
+      this.fieldDecoration});
+
+  /// Returns a copy of [TimePickerDecoration] with updated values.
+  TimePickerDecoration copyWith({
+    bool? showCursor,
+    Color? hoverColor,
+    Color? cursorColor,
+    double? cursorWidth,
+    bool? fieldReadOnly,
+    double? cursorHeight,
+    TextStyle? textStyle,
+    Radius? cursorRadius,
+    Offset? dropdownOffset,
+    Color? cursorErrorColor,
+    EdgeInsets? listPadding,
+    BoxDecoration? menuDecoration,
+    PickerTextStyle? pickerTextStyle,
+    BorderRadiusGeometry? borderRadius,
+    SuffixDecoration? suffixDecoration,
+    FieldDecoration? fieldDecoration,
+  }) {
+    return TimePickerDecoration(
+      showCursor: showCursor ?? this.showCursor,
+      textStyle: textStyle ?? this.textStyle,
+      hoverColor: hoverColor ?? this.hoverColor,
+      cursorColor: cursorColor ?? this.cursorColor,
+      cursorWidth: cursorWidth ?? this.cursorWidth,
+      listPadding: listPadding ?? this.listPadding,
+      borderRadius: borderRadius ?? this.borderRadius,
+      cursorHeight: cursorHeight ?? this.cursorHeight,
+      cursorRadius: cursorRadius ?? this.cursorRadius,
+      fieldReadOnly: fieldReadOnly ?? this.fieldReadOnly,
+      dropdownOffset: dropdownOffset ?? this.dropdownOffset,
+      menuDecoration: menuDecoration ?? this.menuDecoration,
+      pickerTextStyle: pickerTextStyle ?? this.pickerTextStyle,
+      cursorErrorColor: cursorErrorColor ?? this.cursorErrorColor,
+      suffixDecoration: suffixDecoration ?? this.suffixDecoration,
+      fieldDecoration: fieldDecoration ?? this.fieldDecoration,
+    );
+  }
+}
+
+class FieldDecoration {
+  /// Padding applied inside the text field.
+  EdgeInsetsGeometry? contentPadding;
+
+  /// Constraints applied to suffix icons inside the text field.
+  BoxConstraints? suffixIconConstraints;
+
+  /// Border displayed when the text field shows an error.
+  InputBorder? errorBorder;
+
+  InputBorder? focusedErrorBorder;
+
+  /// Border displayed when the text field is focused.
+  InputBorder? focusedBorder;
+
+  /// Border displayed when the text field is enabled.
+  InputBorder? enabledBorder;
+
+  /// The style applied to error messages.
+  TextStyle? errorStyle;
+
+  /// The style applied to the hint text.
+  TextStyle? hintStyle;
+
   /// Whether the text field is dense.
   bool? isDense;
 
@@ -21,7 +150,7 @@ class TimePickerDecoration {
   Widget? error;
 
   /// An icon that appears after the editable part of the text field and
-  /// after the [suffix] or [suffixText], within the decoration's container.
+  /// after the [suffix] or [suffixText], within the fieldDecoration's container.
   ///
   /// The size and color of the suffix icon is configured automatically using an
   /// [IconTheme] and therefore does not need to be explicitly given in the
@@ -41,7 +170,7 @@ class TimePickerDecoration {
   /// )
   /// ```
   ///
-  /// The decoration's container is the area which is filled if [filled] is
+  /// The fieldDecoration's container is the area which is filled if [filled] is
   /// true and bordered per the [border]. It's the area adjacent to
   /// [icon] and above the widgets that contain [helperText],
   /// [errorText], and [counterText].
@@ -66,12 +195,6 @@ class TimePickerDecoration {
   ///    sizes itself based on the child's size.
   Widget? suffixIcon;
 
-  /// The locale used for formatting, if any.
-  Locale? locale;
-
-  /// Whether to display the text cursor.
-  bool? showCursor;
-
   /// The background fill color of the text field.
   Color? fillColor;
 
@@ -81,185 +204,70 @@ class TimePickerDecoration {
   /// Placeholder text displayed when the field is empty.
   String? hintText;
 
-  /// The hover color of the text field.
-  Color? hoverColor;
+  Color? focusColor;
 
   /// The maximum number of lines the error text can occupy.
   int? errorMaxLines;
 
-  /// The color of the text cursor.
-  Color? cursorColor;
-
-  /// Whether the text field is read-only.
-  bool? fieldReadOnly;
-
-  /// The width of the text cursor.
-  double? cursorWidth;
-
-  /// The style applied to the input text.
-  TextStyle? textStyle;
-
-  /// The style applied to the hint text.
-  TextStyle? hintStyle;
-
-  /// The style applied to error messages.
-  TextStyle? errorStyle;
-
-  /// The height of the text cursor.
-  double? cursorHeight;
-
-  /// The radius of the text cursor.
-  Radius? cursorRadius;
-
-  /// Offset to adjust the dropdown menu position.
-  Offset? dropdownOffset;
-
-  /// The color of the cursor when an error occurs.
-  Color? cursorErrorColor;
-
-  /// Padding around the list of items in the dropdown menu.
-  EdgeInsets? listPadding;
-
-  /// Border displayed when the text field shows an error.
-  InputBorder? errorBorder;
-
-  /// Border displayed when the text field is focused.
-  InputBorder? focusedBorder;
-
-  /// Border displayed when the text field is enabled.
-  InputBorder? enabledBorder;
-
-  /// Decoration applied to the dropdown menu container.
-  BoxDecoration? menuDecoration;
-
-  /// Text style used inside the dropdown menu items.
-  PickerTextStyle? pickerTextStyle;
-
-  /// Border radius of the dropdown menu.
-  BorderRadiusGeometry? borderRadius;
-
-  /// Decoration applied to suffix elements such as AM/PM buttons.
-  SuffixDecoration? suffixDecoration;
-
-  /// Padding applied inside the text field.
-  EdgeInsetsGeometry? contentPadding;
-
-  /// Constraints applied to suffix icons inside the text field.
-  BoxConstraints? suffixIconConstraints;
-
-  /// Creates a [TimePickerDecoration] with the given parameters.
-  TimePickerDecoration({
+  FieldDecoration({
     this.label,
     this.error,
-    this.locale,
     this.filled,
     this.enabled,
     this.isDense,
     this.hintText,
-    this.textStyle,
     this.fillColor,
     this.prefixIcon,
     this.suffixIcon,
     this.hintStyle,
-    this.hoverColor,
+    this.focusColor,
     this.errorStyle,
-    this.showCursor,
-    this.cursorWidth,
-    this.cursorColor,
-    this.listPadding,
     this.errorBorder,
-    this.borderRadius,
-    this.cursorHeight,
-    this.cursorRadius,
     this.errorMaxLines,
-    this.fieldReadOnly,
     this.enabledBorder,
     this.focusedBorder,
-    this.dropdownOffset,
     this.contentPadding,
-    this.pickerTextStyle,
-    this.menuDecoration,
-    this.suffixDecoration,
-    this.cursorErrorColor,
+    this.focusedErrorBorder,
     this.suffixIconConstraints,
   });
 
-  /// Returns a copy of [TimePickerDecoration] with updated values.
-  TimePickerDecoration.copyWith({
+  FieldDecoration copyWith({
     bool? filled,
     bool? isDense,
     bool? enabled,
     Widget? error,
     Widget? label,
-    Locale? locale,
     Color? fillColor,
-    bool? showCursor,
     String? hintText,
-    Color? hoverColor,
-    Widget? prefixIcon,
-    Widget? suffixIcon,
-    int? errorMaxLines,
-    Color? cursorColor,
-    double? cursorWidth,
-    bool? fieldReadOnly,
-    double? cursorHeight,
-    TextStyle? textStyle,
-    TextStyle? hintStyle,
     TextStyle? errorStyle,
-    Radius? cursorRadius,
-    Offset? dropdownOffset,
-    EdgeInsets? listPadding,
-    Color? cursorErrorColor,
     InputBorder? errorBorder,
     InputBorder? enabledBorder,
     InputBorder? focusedBorder,
-    BoxDecoration? menuDecoration,
-    PickerTextStyle? pickerTextStyle,
+    InputBorder? focusedErrorBorder,
     EdgeInsetsGeometry? contentPadding,
-    SuffixDecoration? suffixDecoration,
-    BorderRadiusGeometry? borderRadius,
     BoxConstraints? suffixIconConstraints,
   }) {
-    TimePickerDecoration(
+    return FieldDecoration(
       label: label ?? this.label,
       error: error ?? this.error,
-      locale: locale ?? this.locale,
       filled: filled ?? this.filled,
       isDense: isDense ?? this.isDense,
       enabled: enabled ?? this.enabled,
       hintText: hintText ?? this.hintText,
       fillColor: fillColor ?? this.fillColor,
-      textStyle: textStyle ?? this.textStyle,
-      hintStyle: hintStyle ?? this.hintStyle,
-      prefixIcon: prefixIcon ?? this.prefixIcon,
       errorStyle: errorStyle ?? this.errorStyle,
-      hoverColor: hoverColor ?? this.hoverColor,
-      suffixIcon: suffixIcon ?? this.suffixIcon,
-      showCursor: showCursor ?? this.showCursor,
       errorBorder: errorBorder ?? this.errorBorder,
-      cursorColor: cursorColor ?? this.cursorColor,
-      cursorWidth: cursorWidth ?? this.cursorWidth,
-      listPadding: listPadding ?? this.listPadding,
-      borderRadius: borderRadius ?? this.borderRadius,
-      cursorHeight: cursorHeight ?? this.cursorHeight,
-      cursorRadius: cursorRadius ?? this.cursorRadius,
-      fieldReadOnly: fieldReadOnly ?? this.fieldReadOnly,
       enabledBorder: enabledBorder ?? this.enabledBorder,
-      errorMaxLines: errorMaxLines ?? this.errorMaxLines,
       focusedBorder: focusedBorder ?? this.focusedBorder,
-      dropdownOffset: dropdownOffset ?? this.dropdownOffset,
       contentPadding: contentPadding ?? this.contentPadding,
-      menuDecoration: menuDecoration ?? this.menuDecoration,
-      pickerTextStyle: pickerTextStyle ?? this.pickerTextStyle,
-      suffixDecoration: suffixDecoration ?? this.suffixDecoration,
-      cursorErrorColor: cursorErrorColor ?? this.cursorErrorColor,
+      focusedErrorBorder: focusedErrorBorder ?? this.focusedErrorBorder,
       suffixIconConstraints:
           suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
 
-/// Defines the decoration for suffix elements such as AM/PM toggles.
+/// Defines the fieldDecoration for suffix elements such as AM/PM toggles.
 ///
 /// Used inside [TimePickerDecoration].
 class SuffixDecoration {
@@ -296,7 +304,7 @@ class SuffixDecoration {
   });
 
   /// Returns a copy of [SuffixDecoration] with updated values.
-  SuffixDecoration.copyWith({
+  SuffixDecoration copyWith({
     TextStyle? textStyle,
     double? height,
     width,
@@ -305,7 +313,7 @@ class SuffixDecoration {
     BoxDecoration? selectedDecoration,
     BoxDecoration? unSelectedDecoration,
   }) {
-    SuffixDecoration(
+    return SuffixDecoration(
       width: width ?? this.width,
       height: height ?? this.height,
       padding: padding ?? this.padding,
@@ -321,6 +329,9 @@ class SuffixDecoration {
 ///
 /// Supports customization for size, weight, color, and alignment.
 class PickerTextStyle {
+  /// The locale used for formatting, if any.
+  final Locale? locale;
+
   /// The color of the text.
   final Color? color;
 
@@ -363,6 +374,7 @@ class PickerTextStyle {
   /// Creates a [PickerTextStyle] with the given properties.
   const PickerTextStyle({
     this.color,
+    this.locale,
     this.height,
     this.maxLines,
     this.fontSize,
@@ -382,6 +394,7 @@ class PickerTextStyle {
     Color? color,
     int? maxLines,
     double? height,
+    Locale? locale,
     double? fontSize,
     Color? hoverColor,
     String? fontFamily,
@@ -396,6 +409,7 @@ class PickerTextStyle {
     return PickerTextStyle(
       color: color ?? this.color,
       height: height ?? this.height,
+      locale: locale ?? this.locale,
       overflow: overflow ?? this.overflow,
       maxLines: maxLines ?? this.maxLines,
       fontSize: fontSize ?? this.fontSize,

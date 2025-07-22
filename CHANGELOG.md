@@ -1,3 +1,6 @@
+##  0.0.3+1
+- Bug Fixed
+
 ##  0.0.3
 - Validation option added for users and bug fixes.
 

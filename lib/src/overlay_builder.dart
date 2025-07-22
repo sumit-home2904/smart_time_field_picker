@@ -275,7 +275,8 @@ class _OverlayOutBuilderState<T> extends State<OverlayBuilder<T>> {
                         ),
                         child: Text(
                           "${widget.item[index]}",
-                          locale: widget.timePickerDecoration?.locale,
+                          locale: widget
+                              .timePickerDecoration?.pickerTextStyle?.locale,
                           maxLines: widget
                               .timePickerDecoration?.pickerTextStyle?.maxLines,
                           textAlign: widget

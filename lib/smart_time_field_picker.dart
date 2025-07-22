@@ -35,7 +35,7 @@ class SmartTimeField extends StatefulWidget {
   /// Focus node to control and listen for focus changes on the text field.
   final FocusNode? focusNode;
 
-  /// Additional decoration properties for customizing the look of the field
+  /// Additional fieldDecoration properties for customizing the look of the field
   /// and dropdown menu.
   final TimePickerDecoration? timePickerDecoration;
 
@@ -483,27 +483,46 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                   cursorWidth: widget.timePickerDecoration?.cursorWidth ?? 2.0,
                   cursorRadius: widget.timePickerDecoration?.cursorRadius,
                   decoration: InputDecoration(
-                    error: widget.timePickerDecoration?.error,
-                    label: widget.timePickerDecoration?.label,
-                    filled: widget.timePickerDecoration?.filled,
-                    hintText: widget.timePickerDecoration?.hintText,
-                    hintStyle: widget.timePickerDecoration?.hintStyle,
-                    fillColor: widget.timePickerDecoration?.fillColor,
-                    prefixIcon: widget.timePickerDecoration?.prefixIcon,
-                    errorStyle: widget.timePickerDecoration?.errorStyle,
-                    enabled: widget.timePickerDecoration?.enabled ?? true,
-                    isDense: widget.timePickerDecoration?.isDense ?? true,
-                    errorBorder: widget.timePickerDecoration?.errorBorder,
-                    errorMaxLines: widget.timePickerDecoration?.errorMaxLines,
-                    focusedBorder: widget.timePickerDecoration?.focusedBorder ??
+                    error: widget.timePickerDecoration?.fieldDecoration?.error,
+                    label: widget.timePickerDecoration?.fieldDecoration?.label,
+                    filled:
+                        widget.timePickerDecoration?.fieldDecoration?.filled,
+                    hintText:
+                        widget.timePickerDecoration?.fieldDecoration?.hintText,
+                    hintStyle:
+                        widget.timePickerDecoration?.fieldDecoration?.hintStyle,
+                    fillColor:
+                        widget.timePickerDecoration?.fieldDecoration?.fillColor,
+                    prefixIcon: widget
+                        .timePickerDecoration?.fieldDecoration?.prefixIcon,
+                    errorStyle: widget
+                        .timePickerDecoration?.fieldDecoration?.errorStyle,
+                    enabled:
+                        widget.timePickerDecoration?.fieldDecoration?.enabled ??
+                            true,
+                    isDense:
+                        widget.timePickerDecoration?.fieldDecoration?.isDense ??
+                            true,
+                    errorBorder: widget
+                        .timePickerDecoration?.fieldDecoration?.errorBorder,
+                    focusedErrorBorder: widget.timePickerDecoration
+                        ?.fieldDecoration?.focusedErrorBorder,
+                    focusColor: widget
+                        .timePickerDecoration?.fieldDecoration?.focusColor,
+                    errorMaxLines: widget
+                        .timePickerDecoration?.fieldDecoration?.errorMaxLines,
+                    focusedBorder: widget.timePickerDecoration?.fieldDecoration
+                            ?.focusedBorder ??
                         OutlineInputBorder(),
-                    enabledBorder: widget.timePickerDecoration?.enabledBorder ??
+                    enabledBorder: widget.timePickerDecoration?.fieldDecoration
+                            ?.enabledBorder ??
                         OutlineInputBorder(),
-                    contentPadding:
-                        widget.timePickerDecoration?.contentPadding ??
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    contentPadding: widget.timePickerDecoration?.fieldDecoration
+                            ?.contentPadding ??
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     suffixIcon: !widget.user12Hr
-                        ? widget.timePickerDecoration?.suffixIcon
+                        ? widget
+                            .timePickerDecoration?.fieldDecoration?.suffixIcon
                         : IntrinsicWidth(
                             child: Row(
                               children: [
@@ -560,8 +579,8 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                               ],
                             ),
                           ),
-                    suffixIconConstraints:
-                        widget.timePickerDecoration?.suffixIconConstraints,
+                    suffixIconConstraints: widget.timePickerDecoration
+                        ?.fieldDecoration?.suffixIconConstraints,
                   ),
                   cursorColor:
                       widget.timePickerDecoration?.cursorColor ?? Colors.black,
