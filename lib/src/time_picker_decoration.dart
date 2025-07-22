@@ -239,6 +239,7 @@ class FieldDecoration {
     Widget? label,
     Color? fillColor,
     String? hintText,
+    Widget? suffixIcon,
     TextStyle? errorStyle,
     InputBorder? errorBorder,
     InputBorder? enabledBorder,
@@ -256,13 +257,13 @@ class FieldDecoration {
       hintText: hintText ?? this.hintText,
       fillColor: fillColor ?? this.fillColor,
       errorStyle: errorStyle ?? this.errorStyle,
+      suffixIcon: suffixIcon ?? this.suffixIcon,
       errorBorder: errorBorder ?? this.errorBorder,
       enabledBorder: enabledBorder ?? this.enabledBorder,
       focusedBorder: focusedBorder ?? this.focusedBorder,
       contentPadding: contentPadding ?? this.contentPadding,
       focusedErrorBorder: focusedErrorBorder ?? this.focusedErrorBorder,
-      suffixIconConstraints:
-          suffixIconConstraints ?? this.suffixIconConstraints,
+      suffixIconConstraints: suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
