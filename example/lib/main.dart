@@ -34,6 +34,7 @@ class DropDownClass extends StatefulWidget {
 }
 
 class _DropDownClassState extends State<DropDownClass> {
+
   final dropdownKey = GlobalKey<SmartTimeFieldState>();
   final countryController = OverlayPortalController();
   String? value = "12:10";
@@ -52,13 +53,10 @@ class _DropDownClassState extends State<DropDownClass> {
         child: Column(
           children: [
             Expanded(
-              child: SmartTimeField(
+              child: SmartTimeFieldPicker(
                 user12Hr: true,
                 key: dropdownKey,
                 initialItem: value,
-                timePickerDecoration: TimePickerDecoration(
-                  pickerTextStyle: PickerTextStyle(),
-                ),
                 controller: countryController,
                 textStyle: const TextStyle(
                   fontSize: 12,

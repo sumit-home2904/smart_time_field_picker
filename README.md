@@ -1,5 +1,5 @@
 # 📦 smart_time_field_picker
-A customizable Flutter plugin that provides a powerful SmartTimeField-based 
+A customizable Flutter plugin that provides a powerful SmartTimeFieldPicker-based 
 time picker with support for:
 
 ----
@@ -38,7 +38,7 @@ import 'package:smart_time_field_picker/smart_time_field_picker.dart';
 - Escape: Close the dropdown 
 - Typing: Supports HHmm format (e.g., 1345 → 1:45 PM)
 
-A GlobalKey`<SmartTimeFieldState>` is used to uniquely identify and manage the state of a SmartTimeField
+A GlobalKey`<SmartTimeFieldState>` is used to uniquely identify and manage the state of a SmartTimeFieldPicker
 widget, allowing you to interact with its internal state (e.g., selecting an item or retrieving the selected value)
 from outside the widget.
 
@@ -47,9 +47,9 @@ final GlobalKey<SmartTimeFieldState<String>> timePickerKey = GlobalKey<SmartTime
 ```
 
 **Purpose:**
-The GlobalKey`<SmartTimeFieldState>` allows you to access the state of the SmartTimeField widget,
+The GlobalKey`<SmartTimeFieldState>` allows you to access the state of the SmartTimeFieldPicker widget,
 which is useful when you need to control the dropdown’s behavior programmatically. By associating a key
-with the SmartTimeField, you can call methods on its state, trigger a rebuild, or update its selected
+with the SmartTimeFieldPicker, you can call methods on its state, trigger a rebuild, or update its selected
 value from a parent widget or another part of your app.
 
 
@@ -62,7 +62,7 @@ class SmartTimeClass extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SmartTimeField(
+    return SmartTimeFieldPicker(
       user12Hr: true,
       readOnly: true,
       controller: countryController,
@@ -85,13 +85,15 @@ class SmartTimeClass extends StatelessWidget {
 
 ```dart
 TimePickerDecoration(
-  hintText: "Pick a time",
-  labelText: "Shift Start",
-  prefixIcon: Icon(Icons.access_time),
-  border: OutlineInputBorder(),
-  focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.blue, width: 1),
+  fieldDecoration: FieldDecoration(
+    hintText: "Pick a time",
+    label: Text("Shift Start"),
+    prefixIcon: const Icon(Icons.access_time),
+    enabledBorder: const OutlineInputBorder(),
+    focusedBorder: const OutlineInputBorder(
+     borderSide: BorderSide(color: Colors.blue, width: 1),
+    ),
+    contentPadding: const EdgeInsets.all(12),
   ),
-  contentPadding: EdgeInsets.all(12),
 )
 ```

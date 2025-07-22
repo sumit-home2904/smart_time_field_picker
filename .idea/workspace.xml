@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="553aff46-fb03-48c5-bdf0-3f6898f41a76" name="Changes" comment="Validation option added for users and bug fixes.">
+    <list default="true" id="553aff46-fb03-48c5-bdf0-3f6898f41a76" name="Changes" comment="Bug Fixed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/smart_time_field_picker.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/smart_time_field_picker.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/overlay_builder.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/overlay_builder.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/time_picker_decoration.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/time_picker_decoration.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -189,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753164003747</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Bug Fixed">
+      <option name="closed" value="true" />
+      <created>1753187602178</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1753187602178</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -200,6 +208,7 @@
     <MESSAGE value="mode decoration property added" />
     <MESSAGE value="bug fixed" />
     <MESSAGE value="Validation option added for users and bug fixes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Validation option added for users and bug fixes." />
+    <MESSAGE value="Bug Fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug Fixed" />
   </component>
 </project>

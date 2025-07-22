@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 import 'src/overlay_builder.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class SmartTimeField extends StatefulWidget {
+class SmartTimeFieldPicker extends StatefulWidget {
   /// Whether interactive text selection (copy, paste, etc.) is enabled.
   ///
   /// If `null`, it falls back to the `fieldReadOnly` flag in
@@ -71,9 +71,9 @@ class SmartTimeField extends StatefulWidget {
   /// Returns an error message string if invalid or `null` if valid.
   final String? Function(String?)? validator;
 
-  /// Creates a [SmartTimeField] widget.
+  /// Creates a [SmartTimeFieldPicker] widget.
 
-  const SmartTimeField({
+  const SmartTimeFieldPicker({
     super.key,
     this.validator,
     this.focusNode,
@@ -93,10 +93,10 @@ class SmartTimeField extends StatefulWidget {
   });
 
   @override
-  State<SmartTimeField> createState() => SmartTimeFieldState();
+  State<SmartTimeFieldPicker> createState() => SmartTimeFieldState();
 }
 
-class SmartTimeFieldState extends State<SmartTimeField> {
+class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
   /// Currently selected time item.
   String? selectedItem;
 
@@ -260,7 +260,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
   }
 
   @override
-  void didUpdateWidget(covariant SmartTimeField oldWidget) {
+  void didUpdateWidget(covariant SmartTimeFieldPicker oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
