@@ -5,65 +5,82 @@ import 'src/time_picker_decoration.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smart_time_field_picker/src/overlay_builder.dart';
+import 'src/overlay_builder.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class SmartTimeField extends StatefulWidget {
-  /// when you have text fields, users can usually long-press to select text,
-  /// which brings up the toolbar with options like copy, paste, etc. So,
-  /// [enableInteractiveSelection] probably relates to enabling or disabling that behavior.
+  /// Whether interactive text selection (copy, paste, etc.) is enabled.
+  ///
+  /// If `null`, it falls back to the `fieldReadOnly` flag in
+  /// [TimePickerDecoration].
   final bool? enableInteractiveSelection;
 
-  /// Use this for [FromFieldDropDown] to read only from the dropdown you want.
+  /// Whether the field is read-only and input is only allowed from the dropdown.
   final bool readOnly;
 
-  /// get your open drop-down menu height it's have default 150 height
+  /// Height of the dropdown menu when opened.
+  ///
+  /// Defaults to `150`.
   final double? menuHeight;
+
+  /// Width of the dropdown menu when opened.
   final double? menuWidth;
 
-  /// the automatically generated controller an initial value.
+  /// Initial value of the text field when first built.
   final String? initialItem;
 
-  /// you can give your custom error text for 24Hour type Selected
-  final String? errorFor24Hour;
-
-  /// you can give your custom error text for 12Hour type Selected
-  final String? errorFor12Hour;
-
-  /// Use this to style your search or selected text.
+  /// Text style for the main input field.
   final TextStyle textStyle;
 
-  /// Call when we need to focus; your drop-down is searchable.
+  /// Focus node to control and listen for focus changes on the text field.
   final FocusNode? focusNode;
 
+  /// Additional decoration properties for customizing the look of the field
+  /// and dropdown menu.
   final TimePickerDecoration? timePickerDecoration;
 
-  /// Callback function when an item is selected.
+  /// Callback function that is triggered when the value changes.
   final Function(String? value) onChanged;
 
-  /// Enable the validation listener on item change.
-  /// This implies to [validator] everytime when the item change.
+  /// Specifies when the validator function should be called.
+  ///
+  /// Defaults to null.
   final AutovalidateMode? autoValidateMode;
 
-  /// Use the [OverlayPortalController] to display or conceal your drop-down.
+  /// Controller for showing or hiding the dropdown overlay.
   final OverlayPortalController controller;
 
-  /// call when you need to change the search field textAlign [TextAlign.start]
+  /// Alignment of the input text.
+  ///
+  /// Defaults to [TextAlign.start].
   final TextAlign textAlign;
 
+  /// Elevation of the dropdown menu card.
+  ///
+  /// Defaults to `0`.
   final double? elevation;
 
+  /// Determines if the field uses 12-hour format.
+  ///
+  /// - `true`: 12-hour format (AM/PM toggle enabled)
+  /// - `false`: 24-hour format
   final bool user12Hr;
+
+  /// Validator function to check if the inputted time is valid.
+  ///
+  /// Returns an error message string if invalid or `null` if valid.
+  final String? Function(String?)? validator;
+
+  /// Creates a [SmartTimeField] widget.
 
   const SmartTimeField({
     super.key,
+    this.validator,
     this.focusNode,
     this.menuWidth,
     this.menuHeight,
     this.initialItem,
     this.elevation = 0,
-    this.errorFor12Hour,
-    this.errorFor24Hour,
     this.readOnly = false,
     this.user12Hr = false,
     this.autoValidateMode,
@@ -73,43 +90,60 @@ class SmartTimeField extends StatefulWidget {
     this.timePickerDecoration,
     this.enableInteractiveSelection,
     this.textAlign = TextAlign.start,
-  }) : assert(
-          errorFor12Hour == null || errorFor24Hour == null,
-          'You can only provide either errorFor12Hour or errorFor24Hour, not both.',
-        );
+  });
 
   @override
   State<SmartTimeField> createState() => SmartTimeFieldState();
 }
 
 class SmartTimeFieldState extends State<SmartTimeField> {
+  /// Currently selected time item.
   String? selectedItem;
+
+  /// List of time items displayed in the dropdown menu.
   late List<String> items;
 
+  /// Index of the currently focused item in the dropdown list.
   int focusedIndex = -1;
 
+  /// Whether the "AM" toggle is selected (for 12-hour format).
   bool isAmSelected = true;
+
+  /// Whether typing in the input field is disabled.
   bool isTypingDisabled = false;
+
+  /// Whether navigation through the dropdown is being done using the keyboard.
   bool isKeyboardNavigation = false;
 
+  /// Layer link used to position the dropdown overlay.
   final layerLink = LayerLink();
+
+  /// Key for the main text field widget.
   final GlobalKey textFieldKey = GlobalKey();
+
+  /// Key for the dropdown list widget.
   final GlobalKey itemListKey = GlobalKey();
 
+  /// Scroll controller for the dropdown list.
   final ScrollController scrollController = ScrollController();
+
+  /// Controller for the text input field.
   final TextEditingController textController = TextEditingController();
 
+  /// Updates the focused index in the dropdown list.
   void changeFocusIndex(int index) {
     focusedIndex = index;
     setState(() {});
   }
 
+  /// Updates the keyboard navigation flag.
   void changeKeyBool(bool newValue) {
     isKeyboardNavigation = newValue;
     setState(() {});
   }
 
-  List<String> timeSlots = [
+  /// List of available time slots for 24-hour format.
+  final List<String> timeSlots = [
     "00:00",
     "00:30",
     "01:00",
@@ -160,7 +194,8 @@ class SmartTimeFieldState extends State<SmartTimeField> {
     "23:30"
   ];
 
-  List<String> timeSlots12HrUnique = [
+  /// List of available time slots for 12-hour format.
+  final List<String> timeSlots12HrUnique = [
     "12:00",
     "12:30",
     "01:00",
@@ -187,7 +222,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
     "11:30"
   ];
 
-  // — make this a member so it lives across rebuilds —
+  /// Formatter for enforcing a `##:##` time input mask.
   late final MaskTextInputFormatter _maskFormatter;
 
   @override
@@ -468,7 +503,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                         widget.timePickerDecoration?.contentPadding ??
                             EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                     suffixIcon: !widget.user12Hr
-                        ? SizedBox()
+                        ? widget.timePickerDecoration?.suffixIcon
                         : IntrinsicWidth(
                             child: Row(
                               children: [
@@ -534,7 +569,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
                       widget.timePickerDecoration?.cursorErrorColor ??
                           Colors.black,
                   autovalidateMode: widget.autoValidateMode,
-                  validator: _timeValidator,
+                  validator: widget.validator ?? _timeValidator,
                   onChanged: onChange,
                   onTap: textFiledOnTap,
                 )),
@@ -547,10 +582,6 @@ class SmartTimeFieldState extends State<SmartTimeField> {
   /// drop-down on tap function
   textFiledOnTap() async {
     focusedIndex = 0;
-    // textController.selection = TextSelection(
-    //   baseOffset: 0,
-    //   extentOffset: textController.text.length,
-    // );
 
     if (!(widget.readOnly)) {
       widget.controller.show();
@@ -656,9 +687,7 @@ class SmartTimeFieldState extends State<SmartTimeField> {
         parts.length > 1 ? (int.tryParse(parts[1].padLeft(2, '0')) ?? 0) : 0;
     final maxHour = widget.user12Hr ? 12 : 23;
     if (hh > maxHour || mm > 59) {
-      return widget.user12Hr
-          ? widget.errorFor12Hour ?? 'Must be ≤ 12:59'
-          : widget.errorFor24Hour ?? 'Must be ≤ 23:59';
+      return widget.user12Hr ? 'Must be ≤ 12:59' : 'Must be ≤ 23:59';
     }
     return null;
   }

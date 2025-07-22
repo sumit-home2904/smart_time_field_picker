@@ -23,8 +23,8 @@ dependencies:
  smart_time_field_picker: ^<latest-version>
 ```
 
-2.Import the package and use it in your Flutter App.
-🛠️ Usage
+2.Import the package and use it in your Flutter App. 🛠️ Usage
+
 ```dart
 import 'package:smart_time_field_picker/smart_time_field_picker.dart';
 ```
@@ -65,15 +65,13 @@ class SmartTimeClass extends StatelessWidget {
     return SmartTimeField(
       user12Hr: true,
       readOnly: true,
-      key: dropdownKey,
-      initialItem: value,
       controller: countryController,
       textStyle: const TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w400,
       ),
       onChanged: (String? va) {
-        value = va;
+        /// add your code.
       },
     );
   }

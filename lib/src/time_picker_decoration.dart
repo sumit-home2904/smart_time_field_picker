@@ -20,6 +20,52 @@ class TimePickerDecoration {
   /// The error widget displayed when validation fails.
   Widget? error;
 
+  /// An icon that appears after the editable part of the text field and
+  /// after the [suffix] or [suffixText], within the decoration's container.
+  ///
+  /// The size and color of the suffix icon is configured automatically using an
+  /// [IconTheme] and therefore does not need to be explicitly given in the
+  /// icon widget.
+  ///
+  /// The suffix icon is constrained with a minimum size of 48px by 48px, but
+  /// can be expanded beyond that. Anything larger than 24px will require
+  /// additional padding to ensure it matches the Material Design spec of 12px
+  /// padding between the right edge of the input and trailing edge of the
+  /// prefix icon. The following snippet shows how to pad the trailing edge of
+  /// the suffix icon:
+  ///
+  /// ```dart
+  /// suffixIcon: Padding(
+  ///   padding: const EdgeInsetsDirectional.only(end: 12.0),
+  ///   child: _myIcon, // myIcon is a 48px-wide widget.
+  /// )
+  /// ```
+  ///
+  /// The decoration's container is the area which is filled if [filled] is
+  /// true and bordered per the [border]. It's the area adjacent to
+  /// [icon] and above the widgets that contain [helperText],
+  /// [errorText], and [counterText].
+  ///
+  /// The suffix icon alignment can be changed using [Align] with a fixed `widthFactor` and
+  /// `heightFactor`.
+  ///
+  /// {@tool dartpad}
+  /// This example shows how the suffix icon alignment can be changed using [Align] with
+  /// a fixed `widthFactor` and `heightFactor`.
+  ///
+  /// ** See code in examples/api/lib/material/input_decorator/input_decoration.suffix_icon.0.dart **
+  /// {@end-tool}
+  ///
+  /// See also:
+  ///
+  ///  * [Icon] and [ImageIcon], which are typically used to show icons.
+  ///  * [suffix] and [suffixText], which are other ways to show content
+  ///    after the text field (but before the icon).
+  ///  * [prefixIcon], which is the same but on the leading edge.
+  ///  * [Align] A widget that aligns its child within itself and optionally
+  ///    sizes itself based on the child's size.
+  Widget? suffixIcon;
+
   /// The locale used for formatting, if any.
   Locale? locale;
 
@@ -113,6 +159,7 @@ class TimePickerDecoration {
     this.textStyle,
     this.fillColor,
     this.prefixIcon,
+    this.suffixIcon,
     this.hintStyle,
     this.hoverColor,
     this.errorStyle,
@@ -150,6 +197,7 @@ class TimePickerDecoration {
     String? hintText,
     Color? hoverColor,
     Widget? prefixIcon,
+    Widget? suffixIcon,
     int? errorMaxLines,
     Color? cursorColor,
     double? cursorWidth,
@@ -175,17 +223,18 @@ class TimePickerDecoration {
     TimePickerDecoration(
       label: label ?? this.label,
       error: error ?? this.error,
-      filled: filled ?? this.filled,
       locale: locale ?? this.locale,
-      enabled: enabled ?? this.enabled,
+      filled: filled ?? this.filled,
       isDense: isDense ?? this.isDense,
+      enabled: enabled ?? this.enabled,
       hintText: hintText ?? this.hintText,
-      hintStyle: hintStyle ?? this.hintStyle,
       fillColor: fillColor ?? this.fillColor,
       textStyle: textStyle ?? this.textStyle,
+      hintStyle: hintStyle ?? this.hintStyle,
       prefixIcon: prefixIcon ?? this.prefixIcon,
       errorStyle: errorStyle ?? this.errorStyle,
       hoverColor: hoverColor ?? this.hoverColor,
+      suffixIcon: suffixIcon ?? this.suffixIcon,
       showCursor: showCursor ?? this.showCursor,
       errorBorder: errorBorder ?? this.errorBorder,
       cursorColor: cursorColor ?? this.cursorColor,
