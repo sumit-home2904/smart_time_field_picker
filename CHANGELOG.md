@@ -1,3 +1,6 @@
+##  0.0.3+3
+- Item duplication issue fixed 
+
 ##  0.0.3+2
 - Bug Fixed
 

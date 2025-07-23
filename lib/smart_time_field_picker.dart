@@ -601,14 +601,9 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
   /// drop-down on tap function
   textFiledOnTap() async {
     focusedIndex = 0;
-
     if (!(widget.readOnly)) {
       widget.controller.show();
-      if (!widget.user12Hr) {
-        items.addAll(timeSlots);
-      } else {
-        items.addAll(timeSlots12HrUnique);
-      }
+      items = !widget.user12Hr ? [...timeSlots] : [...timeSlots12HrUnique];
       setState(() {});
     }
   }
