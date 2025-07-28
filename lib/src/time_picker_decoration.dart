@@ -54,21 +54,21 @@ class TimePickerDecoration {
   /// Creates a [TimePickerDecoration] with the given parameters.
   TimePickerDecoration(
       {this.textStyle,
-      this.showCursor,
-      this.hoverColor,
-      this.cursorWidth,
-      this.cursorColor,
-      this.listPadding,
-      this.borderRadius,
-      this.cursorHeight,
-      this.cursorRadius,
-      this.fieldReadOnly,
-      this.dropdownOffset,
-      this.menuDecoration,
-      this.pickerTextStyle,
-      this.cursorErrorColor,
-      this.suffixDecoration,
-      this.fieldDecoration});
+        this.showCursor,
+        this.hoverColor,
+        this.cursorWidth,
+        this.cursorColor,
+        this.listPadding,
+        this.borderRadius,
+        this.cursorHeight,
+        this.cursorRadius,
+        this.fieldReadOnly,
+        this.dropdownOffset,
+        this.menuDecoration,
+        this.pickerTextStyle,
+        this.cursorErrorColor,
+        this.suffixDecoration,
+        this.fieldDecoration});
 
   /// Returns a copy of [TimePickerDecoration] with updated values.
   TimePickerDecoration copyWith({
@@ -120,6 +120,7 @@ class FieldDecoration {
   /// Border displayed when the text field shows an error.
   InputBorder? errorBorder;
 
+  /// Border displayed when the text field is focused and has an error.
   InputBorder? focusedErrorBorder;
 
   /// Border displayed when the text field is focused.
@@ -151,48 +152,6 @@ class FieldDecoration {
 
   /// An icon that appears after the editable part of the text field and
   /// after the [suffix] or [suffixText], within the fieldDecoration's container.
-  ///
-  /// The size and color of the suffix icon is configured automatically using an
-  /// [IconTheme] and therefore does not need to be explicitly given in the
-  /// icon widget.
-  ///
-  /// The suffix icon is constrained with a minimum size of 48px by 48px, but
-  /// can be expanded beyond that. Anything larger than 24px will require
-  /// additional padding to ensure it matches the Material Design spec of 12px
-  /// padding between the right edge of the input and trailing edge of the
-  /// prefix icon. The following snippet shows how to pad the trailing edge of
-  /// the suffix icon:
-  ///
-  /// ```dart
-  /// suffixIcon: Padding(
-  ///   padding: const EdgeInsetsDirectional.only(end: 12.0),
-  ///   child: _myIcon, // myIcon is a 48px-wide widget.
-  /// )
-  /// ```
-  ///
-  /// The fieldDecoration's container is the area which is filled if [filled] is
-  /// true and bordered per the [border]. It's the area adjacent to
-  /// [icon] and above the widgets that contain [helperText],
-  /// [errorText], and [counterText].
-  ///
-  /// The suffix icon alignment can be changed using [Align] with a fixed `widthFactor` and
-  /// `heightFactor`.
-  ///
-  /// {@tool dartpad}
-  /// This example shows how the suffix icon alignment can be changed using [Align] with
-  /// a fixed `widthFactor` and `heightFactor`.
-  ///
-  /// ** See code in examples/api/lib/material/input_decorator/input_decoration.suffix_icon.0.dart **
-  /// {@end-tool}
-  ///
-  /// See also:
-  ///
-  ///  * [Icon] and [ImageIcon], which are typically used to show icons.
-  ///  * [suffix] and [suffixText], which are other ways to show content
-  ///    after the text field (but before the icon).
-  ///  * [prefixIcon], which is the same but on the leading edge.
-  ///  * [Align] A widget that aligns its child within itself and optionally
-  ///    sizes itself based on the child's size.
   Widget? suffixIcon;
 
   /// The background fill color of the text field.
@@ -204,6 +163,7 @@ class FieldDecoration {
   /// Placeholder text displayed when the field is empty.
   String? hintText;
 
+  /// Color used for focus highlights (e.g., when the field gains focus).
   Color? focusColor;
 
   /// The maximum number of lines the error text can occupy.
@@ -264,7 +224,7 @@ class FieldDecoration {
       contentPadding: contentPadding ?? this.contentPadding,
       focusedErrorBorder: focusedErrorBorder ?? this.focusedErrorBorder,
       suffixIconConstraints:
-          suffixIconConstraints ?? this.suffixIconConstraints,
+      suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
@@ -273,8 +233,6 @@ class FieldDecoration {
 ///
 /// Used inside [TimePickerDecoration].
 class SuffixDecoration {
-  /// Text style for the suffix labels.
-  TextStyle? textStyle;
 
   /// Height of the suffix widget.
   double? height;
@@ -283,10 +241,16 @@ class SuffixDecoration {
   double? width;
 
   /// Decoration when the suffix is not selected.
-  BoxDecoration? unSelectedDecoration;
+  UnSelectedDecoration? amUnSelectedDecoration;
 
   /// Decoration when the suffix is selected.
-  BoxDecoration? selectedDecoration;
+  SelectedDecoration? amSelectedDecoration;
+
+  /// Decoration when the suffix is not selected.
+  UnSelectedDecoration? pmUnSelectedDecoration;
+
+  /// Decoration when the suffix is selected.
+  SelectedDecoration? pmSelectedDecoration;
 
   /// Padding inside the suffix widget.
   EdgeInsetsGeometry? padding;
@@ -299,39 +263,146 @@ class SuffixDecoration {
     this.width,
     this.height,
     this.padding,
-    this.textStyle,
     this.alignment,
-    this.selectedDecoration,
-    this.unSelectedDecoration,
+    this.amSelectedDecoration,
+    this.pmSelectedDecoration,
+    this.amUnSelectedDecoration,
+    this.pmUnSelectedDecoration,
   });
 
   /// Returns a copy of [SuffixDecoration] with updated values.
   SuffixDecoration copyWith({
-    TextStyle? textStyle,
-    double? height,
-    width,
+    double? height, width,
     EdgeInsetsGeometry? padding,
     AlignmentGeometry? alignment,
-    BoxDecoration? selectedDecoration,
-    BoxDecoration? unSelectedDecoration,
+    SelectedDecoration? amSelectedDecoration,
+    SelectedDecoration? pmSelectedDecoration,
+    UnSelectedDecoration? amUnSelectedDecoration,
+    UnSelectedDecoration? pmUnSelectedDecoration,
   }) {
     return SuffixDecoration(
       width: width ?? this.width,
       height: height ?? this.height,
       padding: padding ?? this.padding,
       alignment: alignment ?? this.alignment,
-      textStyle: textStyle ?? this.textStyle,
-      selectedDecoration: selectedDecoration ?? this.selectedDecoration,
-      unSelectedDecoration: unSelectedDecoration ?? this.unSelectedDecoration,
+      amSelectedDecoration: amSelectedDecoration ?? this.amSelectedDecoration,
+      pmSelectedDecoration: amSelectedDecoration ?? this.pmSelectedDecoration,
+      amUnSelectedDecoration: amUnSelectedDecoration ?? this.amUnSelectedDecoration,
+      pmUnSelectedDecoration: amUnSelectedDecoration ?? this.pmUnSelectedDecoration,
     );
   }
 }
 
-/// A text style used inside the dropdown menu of [SmartTimeField].
+/// Defines the visual styling for a selected suffix element, such as an AM/PM toggle.
 ///
-/// Supports customization for size, weight, color, and alignment.
+/// Can customize color, shape, gradient, text styling, and background blend mode.
+class SelectedDecoration {
+  /// The background color of the selected element.
+  final Color? color;
+
+  /// The border radius applied to the element.
+  final BorderRadiusGeometry? borderRadius;
+
+  /// A gradient used to fill the background of the element.
+  final Gradient? gradient;
+
+  /// The blend mode used when applying the [gradient] or [color].
+  final BlendMode? backgroundBlendMode;
+
+  /// The shape of the element. Defaults to [BoxShape.rectangle].
+  final BoxShape shape;
+
+  /// The style applied to the text inside the selected element.
+  final TextStyle? textStyle;
+
+  /// Creates a [SelectedDecoration] with the given styling properties.
+  const SelectedDecoration({
+    this.color,
+    this.borderRadius,
+    this.gradient,
+    this.backgroundBlendMode,
+    this.shape = BoxShape.rectangle,
+    this.textStyle,
+  });
+
+  /// Returns a copy of this [SelectedDecoration] with updated values.
+  SelectedDecoration copyWith({
+    Color? color,
+    BorderRadiusGeometry? borderRadius,
+    Gradient? gradient,
+    BlendMode? backgroundBlendMode,
+    BoxShape? shape,
+    TextStyle? textStyle,
+  }) {
+    return SelectedDecoration(
+      color: color ?? this.color,
+      borderRadius: borderRadius ?? this.borderRadius,
+      gradient: gradient ?? this.gradient,
+      backgroundBlendMode: backgroundBlendMode ?? this.backgroundBlendMode,
+      shape: shape ?? this.shape,
+      textStyle: textStyle ?? this.textStyle,
+    );
+  }
+}
+
+/// Defines the visual styling for an unselected suffix element, such as an AM/PM toggle.
+///
+/// Can customize color, shape, gradient, text styling, and background blend mode.
+class UnSelectedDecoration {
+  /// The background color of the unselected element.
+  final Color? color;
+
+  /// The border radius applied to the element.
+  final BorderRadiusGeometry? borderRadius;
+
+  /// A gradient used to fill the background of the element.
+  final Gradient? gradient;
+
+  /// The blend mode used when applying the [gradient] or [color].
+  final BlendMode? backgroundBlendMode;
+
+  /// The shape of the element. Defaults to [BoxShape.rectangle].
+  final BoxShape shape;
+
+  /// The style applied to the text inside the unselected element.
+  final TextStyle? textStyle;
+
+  /// Creates an [UnSelectedDecoration] with the given styling properties.
+  const UnSelectedDecoration({
+    this.color,
+    this.borderRadius,
+    this.gradient,
+    this.backgroundBlendMode,
+    this.shape = BoxShape.rectangle,
+    this.textStyle,
+  });
+
+  /// Returns a copy of this [UnSelectedDecoration] with updated values.
+  UnSelectedDecoration copyWith({
+    Color? color,
+    BorderRadiusGeometry? borderRadius,
+    Gradient? gradient,
+    BlendMode? backgroundBlendMode,
+    BoxShape? shape,
+    TextStyle? textStyle,
+  }) {
+    return UnSelectedDecoration(
+      color: color ?? this.color,
+      borderRadius: borderRadius ?? this.borderRadius,
+      gradient: gradient ?? this.gradient,
+      backgroundBlendMode: backgroundBlendMode ?? this.backgroundBlendMode,
+      shape: shape ?? this.shape,
+      textStyle: textStyle ?? this.textStyle,
+    );
+  }
+}
+
+/// Defines the text styling used inside the dropdown menu of [SmartTimeField].
+///
+/// Supports customization of font size, weight, color, alignment, letter spacing,
+/// and text overflow.
 class PickerTextStyle {
-  /// The locale used for formatting, if any.
+  /// The locale used for text formatting, if any.
   final Locale? locale;
 
   /// The color of the text.
@@ -346,13 +417,13 @@ class PickerTextStyle {
   /// The font size of the text.
   final double? fontSize;
 
-  /// The color when the text is hovered.
+  /// The color of the text when hovered.
   final Color? hoverColor;
 
   /// The font family used for the text.
   final String? fontFamily;
 
-  /// The style of the font (normal, italic, etc.).
+  /// The style of the font (e.g., normal, italic).
   final FontStyle? fontStyle;
 
   /// The alignment of the text.
@@ -361,7 +432,7 @@ class PickerTextStyle {
   /// The spacing between letters.
   final double? letterSpacing;
 
-  /// How overflowing text is handled.
+  /// How overflowing text is handled (e.g., ellipsis, clip).
   final TextOverflow? overflow;
 
   /// The thickness of the font.
@@ -370,10 +441,10 @@ class PickerTextStyle {
   /// The baseline alignment of the text.
   final TextBaseline? textBaseline;
 
-  /// The direction of the text.
+  /// The text direction (e.g., left-to-right, right-to-left).
   final TextDirection? textDirection;
 
-  /// Creates a [PickerTextStyle] with the given properties.
+  /// Creates a [PickerTextStyle] with the given text styling properties.
   const PickerTextStyle({
     this.color,
     this.locale,
@@ -391,7 +462,7 @@ class PickerTextStyle {
     this.textDirection,
   });
 
-  /// Returns a copy of [PickerTextStyle] with updated values.
+  /// Returns a copy of this [PickerTextStyle] with updated values.
   PickerTextStyle copyWith({
     Color? color,
     int? maxLines,
@@ -426,3 +497,4 @@ class PickerTextStyle {
     );
   }
 }
+

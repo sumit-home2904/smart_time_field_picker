@@ -61,8 +61,9 @@ class _DropDownClassState extends State<DropDownClass> {
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                 ),
-                onChanged: (String? va) {
-                  value = va;
+                onChanged: (String? value) {
+                  value = value;
+                  // print("object $value");
                 },
               ),
             ),
