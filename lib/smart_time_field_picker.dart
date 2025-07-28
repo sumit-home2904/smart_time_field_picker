@@ -144,17 +144,80 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
 
   /// List of available time slots for 24-hour format.
   final List<String> timeSlots = [
-    "00:00", "00:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30",
-    "05:00", "05:30", "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30",
-    "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
-    "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00", "19:30",
-    "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"
+    "00:00",
+    "00:30",
+    "01:00",
+    "01:30",
+    "02:00",
+    "02:30",
+    "03:00",
+    "03:30",
+    "04:00",
+    "04:30",
+    "05:00",
+    "05:30",
+    "06:00",
+    "06:30",
+    "07:00",
+    "07:30",
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+    "20:30",
+    "21:00",
+    "21:30",
+    "22:00",
+    "22:30",
+    "23:00",
+    "23:30"
   ];
 
   /// List of available time slots for 12-hour format.
   final List<String> timeSlots12HrUnique = [
-    "12:00", "12:30", "01:00", "01:30", "02:00", "02:30", "03:00", "03:30", "04:00", "04:30", "05:00",
-    "05:30", "06:00", "06:30", "07:00", "07:30", "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
+    "12:00",
+    "12:30",
+    "01:00",
+    "01:30",
+    "02:00",
+    "02:30",
+    "03:00",
+    "03:30",
+    "04:00",
+    "04:30",
+    "05:00",
+    "05:30",
+    "06:00",
+    "06:30",
+    "07:00",
+    "07:30",
+    "08:00",
+    "08:30",
+    "09:00",
+    "09:30",
+    "10:00",
+    "10:30",
     "11:00",
     "11:30"
   ];
@@ -193,8 +256,9 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
           }
         } else {
           // Remove AM/PM when losing focus
-          final cleanText = widget.initialItem
-              ?.replaceAll(RegExp(r'\s?(AM|PM)', caseSensitive: false), '') ?? '';
+          final cleanText = widget.initialItem?.replaceAll(
+                  RegExp(r'\s?(AM|PM)', caseSensitive: false), '') ??
+              '';
           textController.text = cleanText;
         }
       });
@@ -211,7 +275,6 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
       selectedItem = cleanText;
     });
   }
-
 
   @override
   void didUpdateWidget(covariant SmartTimeFieldPicker oldWidget) {
@@ -246,8 +309,6 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
       setState(() {});
     });
   }
-
-
 
   void scrollToFocusedItem() {
     RenderBox? renderBox =
@@ -504,8 +565,8 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
                                     }
                                   },
                                   child: Container(
-                                      width: widget.timePickerDecoration
-                                          ?.suffixDecoration?.width,
+                                      width: widget
+                                          .timePickerDecoration?.suffixDecoration?.width,
                                       height: widget.timePickerDecoration
                                           ?.suffixDecoration?.height,
                                       alignment: widget.timePickerDecoration
@@ -514,15 +575,18 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
                                               ?.suffixDecoration?.padding ??
                                           EdgeInsets.all(08),
                                       decoration: amDecoration(isAmSelected),
-                                      child: Text(
-                                          "AM",
+                                      child: Text("AM",
                                           style: isAmSelected
-                                              ?
-                                          widget.timePickerDecoration?.suffixDecoration?.amSelectedDecoration?.textStyle
-                                              :
-                                          widget.timePickerDecoration?.suffixDecoration?.amUnSelectedDecoration?.textStyle
-                                      )
-                                  ),
+                                              ? widget
+                                                  .timePickerDecoration
+                                                  ?.suffixDecoration
+                                                  ?.amSelectedDecoration
+                                                  ?.textStyle
+                                              : widget
+                                                  .timePickerDecoration
+                                                  ?.suffixDecoration
+                                                  ?.amUnSelectedDecoration
+                                                  ?.textStyle)),
                                 ),
                                 SizedBox(width: 2),
                                 InkWell(
@@ -547,11 +611,16 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
                                     decoration: pmDecoration(!isAmSelected),
                                     child: Text("PM",
                                         style: isAmSelected
-                                            ?
-                                        widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.textStyle
-                                            :
-                                        widget.timePickerDecoration?.suffixDecoration?.pmUnSelectedDecoration?.textStyle
-                                    ),
+                                            ? widget
+                                                .timePickerDecoration
+                                                ?.suffixDecoration
+                                                ?.pmSelectedDecoration
+                                                ?.textStyle
+                                            : widget
+                                                .timePickerDecoration
+                                                ?.suffixDecoration
+                                                ?.pmUnSelectedDecoration
+                                                ?.textStyle),
                                   ),
                                 ),
                                 SizedBox(width: 02)
@@ -611,7 +680,8 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
 
     // Find index of first match
     final matchIndex = items.indexWhere((element) {
-      final normalizedElt = element.replaceAll(RegExp(r'^0+'), '').toLowerCase();
+      final normalizedElt =
+          element.replaceAll(RegExp(r'^0+'), '').toLowerCase();
       return normalizedElt.startsWith(search);
     });
 
@@ -625,51 +695,78 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
     }
   }
 
-
   BoxDecoration amDecoration(isSelected) {
     if (isSelected) {
-      return
-          BoxDecoration(
-              color: widget.timePickerDecoration?.suffixDecoration?.amSelectedDecoration?.color ?? Colors.green,
-              borderRadius: widget.timePickerDecoration?.suffixDecoration?.amSelectedDecoration?.borderRadius ?? BorderRadius.only(
-                topLeft: Radius.circular(4),
-                bottomLeft: Radius.circular(4),
-              ),
-              gradient:widget.timePickerDecoration?.suffixDecoration?.amSelectedDecoration?.gradient,
-              backgroundBlendMode:widget.timePickerDecoration?.suffixDecoration?.amSelectedDecoration?.backgroundBlendMode,
-              shape:widget.timePickerDecoration?.suffixDecoration?.amSelectedDecoration?.shape ?? BoxShape.rectangle,
-          );
+      return BoxDecoration(
+        color: widget.timePickerDecoration?.suffixDecoration
+                ?.amSelectedDecoration?.color ??
+            Colors.green,
+        borderRadius: widget.timePickerDecoration?.suffixDecoration
+                ?.amSelectedDecoration?.borderRadius ??
+            BorderRadius.only(
+              topLeft: Radius.circular(4),
+              bottomLeft: Radius.circular(4),
+            ),
+        gradient: widget.timePickerDecoration?.suffixDecoration
+            ?.amSelectedDecoration?.gradient,
+        backgroundBlendMode: widget.timePickerDecoration?.suffixDecoration
+            ?.amSelectedDecoration?.backgroundBlendMode,
+        shape: widget.timePickerDecoration?.suffixDecoration
+                ?.amSelectedDecoration?.shape ??
+            BoxShape.rectangle,
+      );
     } else {
-      return  BoxDecoration(
-        color: widget.timePickerDecoration?.suffixDecoration?.amUnSelectedDecoration?.color ?? Colors.transparent,
-        borderRadius: widget.timePickerDecoration?.suffixDecoration?.amUnSelectedDecoration?.borderRadius,
-        gradient:widget.timePickerDecoration?.suffixDecoration?.amUnSelectedDecoration?.gradient,
-        backgroundBlendMode:widget.timePickerDecoration?.suffixDecoration?.amUnSelectedDecoration?.backgroundBlendMode,
-        shape:widget.timePickerDecoration?.suffixDecoration?.amUnSelectedDecoration?.shape ?? BoxShape.rectangle,
+      return BoxDecoration(
+        color: widget.timePickerDecoration?.suffixDecoration
+                ?.amUnSelectedDecoration?.color ??
+            Colors.transparent,
+        borderRadius: widget.timePickerDecoration?.suffixDecoration
+            ?.amUnSelectedDecoration?.borderRadius,
+        gradient: widget.timePickerDecoration?.suffixDecoration
+            ?.amUnSelectedDecoration?.gradient,
+        backgroundBlendMode: widget.timePickerDecoration?.suffixDecoration
+            ?.amUnSelectedDecoration?.backgroundBlendMode,
+        shape: widget.timePickerDecoration?.suffixDecoration
+                ?.amUnSelectedDecoration?.shape ??
+            BoxShape.rectangle,
       );
     }
   }
 
   BoxDecoration pmDecoration(isSelected) {
     if (isSelected) {
-      return
-        BoxDecoration(
-          color: widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.color ?? Colors.green,
-          borderRadius: widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.borderRadius ?? BorderRadius.only(
-            topRight: Radius.circular(4),
-            bottomRight: Radius.circular(4),
-          ),
-          gradient:widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.gradient,
-          backgroundBlendMode:widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.backgroundBlendMode,
-          shape:widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.shape ?? BoxShape.rectangle,
-        );
+      return BoxDecoration(
+        color: widget.timePickerDecoration?.suffixDecoration
+                ?.pmSelectedDecoration?.color ??
+            Colors.green,
+        borderRadius: widget.timePickerDecoration?.suffixDecoration
+                ?.pmSelectedDecoration?.borderRadius ??
+            BorderRadius.only(
+              topRight: Radius.circular(4),
+              bottomRight: Radius.circular(4),
+            ),
+        gradient: widget.timePickerDecoration?.suffixDecoration
+            ?.pmSelectedDecoration?.gradient,
+        backgroundBlendMode: widget.timePickerDecoration?.suffixDecoration
+            ?.pmSelectedDecoration?.backgroundBlendMode,
+        shape: widget.timePickerDecoration?.suffixDecoration
+                ?.pmSelectedDecoration?.shape ??
+            BoxShape.rectangle,
+      );
     } else {
-      return  BoxDecoration(
-        color: widget.timePickerDecoration?.suffixDecoration?.pmUnSelectedDecoration?.color ?? Colors.transparent,
-        borderRadius: widget.timePickerDecoration?.suffixDecoration?.pmUnSelectedDecoration?.borderRadius,
-        gradient:widget.timePickerDecoration?.suffixDecoration?.pmUnSelectedDecoration?.gradient,
-        backgroundBlendMode:widget.timePickerDecoration?.suffixDecoration?.amUnSelectedDecoration?.backgroundBlendMode,
-        shape:widget.timePickerDecoration?.suffixDecoration?.pmUnSelectedDecoration?.shape ?? BoxShape.rectangle,
+      return BoxDecoration(
+        color: widget.timePickerDecoration?.suffixDecoration
+                ?.pmUnSelectedDecoration?.color ??
+            Colors.transparent,
+        borderRadius: widget.timePickerDecoration?.suffixDecoration
+            ?.pmUnSelectedDecoration?.borderRadius,
+        gradient: widget.timePickerDecoration?.suffixDecoration
+            ?.pmUnSelectedDecoration?.gradient,
+        backgroundBlendMode: widget.timePickerDecoration?.suffixDecoration
+            ?.amUnSelectedDecoration?.backgroundBlendMode,
+        shape: widget.timePickerDecoration?.suffixDecoration
+                ?.pmUnSelectedDecoration?.shape ??
+            BoxShape.rectangle,
       );
     }
   }
@@ -681,12 +778,13 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
       widget.controller.show();
     }
   }
+
   String? _timeValidator(String? val) {
     if (val == null || val.isEmpty) return null;
     final parts = val.split(':');
     final hh = int.tryParse(parts[0].padLeft(2, '0')) ?? 0;
     final mm =
-    parts.length > 1 ? (int.tryParse(parts[1].padLeft(2, '0')) ?? 0) : 0;
+        parts.length > 1 ? (int.tryParse(parts[1].padLeft(2, '0')) ?? 0) : 0;
     final maxHour = widget.user12Hr ? 12 : 23;
     if (hh > maxHour || mm > 59) {
       return widget.user12Hr ? 'Must be ≤ 12:59' : 'Must be ≤ 23:59';

@@ -54,21 +54,21 @@ class TimePickerDecoration {
   /// Creates a [TimePickerDecoration] with the given parameters.
   TimePickerDecoration(
       {this.textStyle,
-        this.showCursor,
-        this.hoverColor,
-        this.cursorWidth,
-        this.cursorColor,
-        this.listPadding,
-        this.borderRadius,
-        this.cursorHeight,
-        this.cursorRadius,
-        this.fieldReadOnly,
-        this.dropdownOffset,
-        this.menuDecoration,
-        this.pickerTextStyle,
-        this.cursorErrorColor,
-        this.suffixDecoration,
-        this.fieldDecoration});
+      this.showCursor,
+      this.hoverColor,
+      this.cursorWidth,
+      this.cursorColor,
+      this.listPadding,
+      this.borderRadius,
+      this.cursorHeight,
+      this.cursorRadius,
+      this.fieldReadOnly,
+      this.dropdownOffset,
+      this.menuDecoration,
+      this.pickerTextStyle,
+      this.cursorErrorColor,
+      this.suffixDecoration,
+      this.fieldDecoration});
 
   /// Returns a copy of [TimePickerDecoration] with updated values.
   TimePickerDecoration copyWith({
@@ -224,7 +224,7 @@ class FieldDecoration {
       contentPadding: contentPadding ?? this.contentPadding,
       focusedErrorBorder: focusedErrorBorder ?? this.focusedErrorBorder,
       suffixIconConstraints:
-      suffixIconConstraints ?? this.suffixIconConstraints,
+          suffixIconConstraints ?? this.suffixIconConstraints,
     );
   }
 }
@@ -233,7 +233,6 @@ class FieldDecoration {
 ///
 /// Used inside [TimePickerDecoration].
 class SuffixDecoration {
-
   /// Height of the suffix widget.
   double? height;
 
@@ -272,7 +271,8 @@ class SuffixDecoration {
 
   /// Returns a copy of [SuffixDecoration] with updated values.
   SuffixDecoration copyWith({
-    double? height, width,
+    double? height,
+    width,
     EdgeInsetsGeometry? padding,
     AlignmentGeometry? alignment,
     SelectedDecoration? amSelectedDecoration,
@@ -287,8 +287,10 @@ class SuffixDecoration {
       alignment: alignment ?? this.alignment,
       amSelectedDecoration: amSelectedDecoration ?? this.amSelectedDecoration,
       pmSelectedDecoration: amSelectedDecoration ?? this.pmSelectedDecoration,
-      amUnSelectedDecoration: amUnSelectedDecoration ?? this.amUnSelectedDecoration,
-      pmUnSelectedDecoration: amUnSelectedDecoration ?? this.pmUnSelectedDecoration,
+      amUnSelectedDecoration:
+          amUnSelectedDecoration ?? this.amUnSelectedDecoration,
+      pmUnSelectedDecoration:
+          amUnSelectedDecoration ?? this.pmUnSelectedDecoration,
     );
   }
 }
@@ -497,4 +499,3 @@ class PickerTextStyle {
     );
   }
 }
-
