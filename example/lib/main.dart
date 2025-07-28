@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FormFiled DropDown Example',
+      title: 'Smart Time FieldPicker Example',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -36,14 +36,14 @@ class DropDownClass extends StatefulWidget {
 class _DropDownClassState extends State<DropDownClass> {
   final dropdownKey = GlobalKey<SmartTimeFieldState>();
   final countryController = OverlayPortalController();
-  String? value = "12:10";
+  String? intiValue = "12:10 PM";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "FormFiled DropDown Example",
+          "Smart Time FieldPicker Example",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -55,15 +55,16 @@ class _DropDownClassState extends State<DropDownClass> {
               child: SmartTimeFieldPicker(
                 user12Hr: true,
                 key: dropdownKey,
-                initialItem: value,
+                initialItem: intiValue,
                 controller: countryController,
                 textStyle: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                 ),
                 onChanged: (String? value) {
-                  value = value;
-                  // print("object $value");
+                  setState(() {
+                    intiValue = value;
+                  });
                 },
               ),
             ),

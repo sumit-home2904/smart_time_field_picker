@@ -1,4 +1,7 @@
-##  0.0.3+3
+#  0.0.4
+- 12-hour AM/PM field adds more decoration properties and bug fixes
+
+#  0.0.3+3
 - Item duplication issue fixed 
 
 ##  0.0.3+2

@@ -172,6 +172,15 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
       type: MaskAutoCompletionType.lazy,
     );
 
+    if (widget.initialItem != null) {
+      final value = widget.initialItem.toString().toUpperCase();
+      if (value.contains('AM')) {
+        isAmSelected = true;
+      } else if (value.contains('PM')) {
+        isAmSelected = false;
+      }
+    }
+
     items = [];
 
     if (widget.focusNode != null) {
@@ -215,7 +224,16 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
           textController.clear();
         } else {
           selectedItem = widget.initialItem;
-          // Remove AM/PM if present
+
+          // Check AM/PM and update isAmSelected
+          final value = widget.initialItem!.toUpperCase();
+          if (value.contains('AM')) {
+            isAmSelected = true;
+          } else if (value.contains('PM')) {
+            isAmSelected = false;
+          }
+
+          // Remove AM/PM if present and update text
           final cleanText = widget.initialItem!
               .replaceAll(RegExp(r'\s?(AM|PM)', caseSensitive: false), '');
           textController.text = cleanText;
@@ -228,6 +246,7 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
       setState(() {});
     });
   }
+
 
 
   void scrollToFocusedItem() {
@@ -505,6 +524,7 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
                                       )
                                   ),
                                 ),
+                                SizedBox(width: 2),
                                 InkWell(
                                   onTap: () {
                                     if (!widget.readOnly) {
@@ -631,13 +651,13 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
   }
 
   BoxDecoration pmDecoration(isSelected) {
-    if (!isSelected) {
+    if (isSelected) {
       return
         BoxDecoration(
           color: widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.color ?? Colors.green,
           borderRadius: widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.borderRadius ?? BorderRadius.only(
-            topLeft: Radius.circular(4),
-            bottomLeft: Radius.circular(4),
+            topRight: Radius.circular(4),
+            bottomRight: Radius.circular(4),
           ),
           gradient:widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.gradient,
           backgroundBlendMode:widget.timePickerDecoration?.suffixDecoration?.pmSelectedDecoration?.backgroundBlendMode,
