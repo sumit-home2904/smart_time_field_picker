@@ -1,4 +1,4 @@
-#  0.0.4
+#  0.0.4+1
 - 12-hour AM/PM field adds more decoration properties and bug fixes
 
 #  0.0.3+3

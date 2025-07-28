@@ -610,7 +610,7 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
                                         EdgeInsets.all(08),
                                     decoration: pmDecoration(!isAmSelected),
                                     child: Text("PM",
-                                        style: isAmSelected
+                                        style: !isAmSelected
                                             ? widget
                                                 .timePickerDecoration
                                                 ?.suffixDecoration
@@ -763,7 +763,7 @@ class SmartTimeFieldState extends State<SmartTimeFieldPicker> {
         gradient: widget.timePickerDecoration?.suffixDecoration
             ?.pmUnSelectedDecoration?.gradient,
         backgroundBlendMode: widget.timePickerDecoration?.suffixDecoration
-            ?.amUnSelectedDecoration?.backgroundBlendMode,
+            ?.pmUnSelectedDecoration?.backgroundBlendMode,
         shape: widget.timePickerDecoration?.suffixDecoration
                 ?.pmUnSelectedDecoration?.shape ??
             BoxShape.rectangle,
